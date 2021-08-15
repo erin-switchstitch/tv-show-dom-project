@@ -1,0 +1,29 @@
+--------------------------------------------  Notes  ------------------------------------------------- 
+
+TV Show Banner :
+
+It'd be cool to have an image banner here for the image of the TV show. Have it as a fixed element which 
+reduces opacity as the screen is scrolled down, until eventually it completely fades to nothing. I could
+look into using some cool javascript creative coding here for the transition effect 
+
+
+---------------
+
+
+PopUp Button :
+
+For the button / popup, after clicking it should then show the name of the website this episode data was 
+pulled from as well as a link to the website. Use this guide https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+
+
+---------------
+
+
+Image Hover :
+
+When the user hovers over the image, I want to apply an effect to the image (probably easiest to just place
+another div/box ontop of it with opacity set to high) - and then display info such as the airdate, runtime and 
+airtime. https://www.w3schools.com/howto/howto_css_image_overlay.asp
+
+
+---------------
