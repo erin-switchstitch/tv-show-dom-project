@@ -15,25 +15,40 @@ function makePageForEpisodes(episodeList) {
 
 window.onload = setup;
 
-function popUpFunctionIdSpecific() {
-  var popup = document.getElementById("PLACEHOLDERmyPopup");
+
+// This function works by taking a variable which is the index from the
+// for loop below which sets out the new innerHTML. It uses this variable 
+// to pull the corresponding button ID. It then adds the "show" class which 
+// is then targeted in the CSS
+function popUpFunctionIdSpecific(variable) {
+  cl(variable)
+  const popup = document.getElementById(`myPopupIndex${variable}`);
   popup.classList.toggle("show");
 }
+
+
 
 const flexOuterContainer = document.querySelector(".flexOuterContainer");
 cl(flexOuterContainer);
 const allEpisodes = getAllEpisodes();
 cl(allEpisodes.length);
+const oneShow = getOneShow();
+
 
 for (let index = 0; index < allEpisodes.length; index++) {
   const currentEpisode = allEpisodes[index];
-  cl(currentEpisode);
-  //cl(flexOuterContainer.innerHTML)
+
+  //cl(currentEpisode.summary);
+  var summaryStr = currentEpisode.summary;
+  summaryStr = summaryStr.substring(3, summaryStr.length);
+  summaryStr = summaryStr.substring(0, summaryStr.indexOf("</p>"));
+
+
   flexOuterContainer.innerHTML += `
    <div class="flexEpisodeContainer">
         <h2 class="episodeTitle">${currentEpisode.name}</h2>
-        <h3 class="episodeNumberElement">Season<span class="seasonNum"> ${currentEpisode.season}</span> Episode <span
-            class="episodeNum"> ${currentEpisode.number}</span></h3>
+        <h3 class="episodeNumberElement">Season&nbsp<span class="seasonNum">${currentEpisode.season}</span>&nbspEpisode&nbsp<span
+            class="episodeNum">${currentEpisode.number}</span></h3>
 
         <div class="episodeImageContainer">
           <img class="episodeImage" src=${currentEpisode.image.medium}
@@ -47,12 +62,13 @@ for (let index = 0; index < allEpisodes.length; index++) {
           </div>
         </div>
 
-        <p class="episodeSummary">${currentEpisode.summary}</p>
+        <p class="episodeSummary">${summaryStr}</p>
 
-        <button class="popupButton" onclick="popUpFunctionIdSpecific()">See More Info
-          <span id="PLACEHOLDERmyPopup" class="popupButtonText" id="myPopup">
+        <button class="popupButton" onclick="popUpFunctionIdSpecific(${index})">See More Info
+          <span id="myPopupIndex${index}" class="popupButtonText" id="myPopup">
             <a class="tvMazeLink" href=${currentEpisode._links.self.href} target="_blank">TV Maze Episode Link</a>
-            <a class="imbdLink" href="https://www.w3schools.com/" target="_blank">IMBD Episode Link</a>
+            <br>
+            <a class="imbdLink" href=${oneShow.officialSite} target="_blank">Official Site Link</a>
           </span>
         </button>
 

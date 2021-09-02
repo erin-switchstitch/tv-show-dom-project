@@ -3,19 +3,26 @@
     font-family: "Roboto","Helvetica","Arial",sans-serif;
 } 
 
+body {
+  background-color: #1b1b1b;;
+}
+
 #root {
   color: red;
+  padding: 20px;
+  background-color: #1b1b1b;
+  
 }
 
 
 /* -----------  Styling for the main container  ------------- */
-
+  
 .outerMainContainer{
      border:5px solid black;
 }
 
 .seriesHeadingContainer {
-    border:5px solid grey;
+    
     position:fixed;
     width: 95%;
     
@@ -31,6 +38,7 @@
     max-height: 70vh; 
     max-width:fit-content;
     object-fit: cover;
+    opacity: 0;
     
 }
 
@@ -51,7 +59,7 @@
 /* -----------  Styling for the flex container   -------------- */
 
 .flexOuterContainer{
-    border:5px solid rgb(238, 0, 226);
+    border:5px solid #D2D3D3;
     padding-top: 70vh;
     display: flex;
     /*flex-direction: column; This doesn't work with justify-content*/
@@ -66,19 +74,35 @@
 /* -----------  Styling for the individual episodes ----------- */
 
 .flexEpisodeContainer {
-    border:5px solid rgb(60, 60, 231);
+    border:5px solid #D2D3D3;
     border-radius: 10px;
-    background-color: #1b1b1b;
+    background-color: #2D3032;
     color: white;
     display: flex;
     flex-direction: column;
     align-content: center;
-    width: 300px;   
+    width: 300px;
+    margin: 10px;   
+     
+}
+
+.flexEpisodeContainer:hover {
+  transition: .5s ease;
+  border:5px solid #9615DB;
+}
+
+.flexEpisodeContainer:hover .popupButton {
+  transition: .5s ease;
+  background-color: #9615DB;
+  border-color: #9615DB;
 }
 
 .episodeTitle{
     display: flex;
     justify-content: center;
+    padding-bottom: 10px;
+    border-bottom: solid 2px #9615dbbe;
+    
 }
 
 .episodeNumberElement{
@@ -108,7 +132,7 @@
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-    background-color: #1b1b1b;
+    background-color: #4b0b6dbb;
 }
 
 
@@ -132,11 +156,12 @@
 
 /* ------ Styling for <p> element (episodeSummary) ---------- */
 
-.episodeSummary{
-    padding-left: 5%;
-    padding-right: 5%;
-    word-spacing: 0.1rem;
-    letter-spacing: 0.1rem;
+.episodeSummary{  
+  height: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+  word-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
 }
 
 /* ------ Styling code for Button and Popup ---------- */
@@ -149,13 +174,28 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  border-top: 2px solid #9615DB;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #D2D3D3;
+  font-size: 1em;
+  font-weight:510;
+  
+}
+
+.flexEpisodeContainer:hover .popupButton:hover {
+  transition: .5s ease;
+  background-color: #D2D3D3;
+  /* font-size: 1.1em; */
+  font-weight:550;
+  /* border: 2px solid #9615DB; */
 }
 
 /* The actual popup */
 .popupButton .popupButtonText {
   visibility: hidden;
   width: 160px;
-  background-color: rgb(42, 42, 42);
+  background-color: #D2D3D3;
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -165,12 +205,14 @@
   bottom: 125%;
   left: 50%;
   margin-left: -80px;
+ 
 }
 
 .popupButton .show {
   visibility: visible;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
+  
 }
 
 /* Add animation (fade in the popup) */

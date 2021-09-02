@@ -1,4 +1,3 @@
-
 function getPosition(element) {
     var yPosition = 0;
     
@@ -27,7 +26,15 @@ document.addEventListener('scroll', function(e) {
     //cl(screenHeight)    
 
     let imageOpacity = screenHeight / scrollTop ; 
-    //cl((imageOpacity + 2)/10)
-    headerImage.style.opacity = ((imageOpacity + 2)/10);
+    let finalOpacity =  ((imageOpacity + 2)/10);
+    cl(finalOpacity)
+    headerImage.style.opacity = finalOpacity;
+
+    if (finalOpacity < 0.225) {
+        headerImage.style.opacity = 0;
+    } else if (finalOpacity < 0.25) {
+        headerImage.style.opacity = finalOpacity / 2;
+    }
+    
     
 });
