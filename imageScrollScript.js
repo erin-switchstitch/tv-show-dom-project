@@ -27,7 +27,7 @@ document.addEventListener('scroll', function(e) {
 
     let imageOpacity = screenHeight / scrollTop ; 
     let finalOpacity =  ((imageOpacity + 2)/10);
-    cl(finalOpacity)
+    //cl(finalOpacity)
     headerImage.style.opacity = finalOpacity;
 
     if (finalOpacity < 0.225) {

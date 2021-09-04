@@ -1,3 +1,8 @@
+:root {
+  --header-offset: 10vh;
+}
+
+
 * { 
     Box-sizing: Border-box; 
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -7,10 +12,14 @@ body {
   background-color: #1b1b1b;;
 }
 
-#root {
+header {
+  position: fixed;
+  height: var( --header-offset);
+  width: 100%;
   color: red;
   padding: 20px;
   background-color: #1b1b1b;
+  border-bottom: #9615DB 5px solid;
   
 }
 
@@ -18,7 +27,8 @@ body {
 /* -----------  Styling for the main container  ------------- */
   
 .outerMainContainer{
-     border:5px solid black;
+    padding-top: var( --header-offset);
+     /* border:5px solid black; */
 }
 
 .seriesHeadingContainer {
@@ -30,6 +40,7 @@ body {
     flex-direction: column;
     justify-content: center;
     z-index: -1;
+   
 }
 
 .seriesHeadingImage{
@@ -38,20 +49,28 @@ body {
     max-height: 70vh; 
     max-width:fit-content;
     object-fit: cover;
-    opacity: 0;
+
     
 }
 
-.seriesHeadingText{
+.uncrackedSeriesHeadingText{
     display: flex;
     width: 100%;
     position: absolute;
     top: 0%;
     justify-content: center;
-    
 
     color:white;
     background-color: #1b1b1bd8;
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-shadow: 1px 2px 0.15em #9615DB;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.009em);
 }
 
 
@@ -59,7 +78,7 @@ body {
 /* -----------  Styling for the flex container   -------------- */
 
 .flexOuterContainer{
-    border:5px solid #D2D3D3;
+    /* border:5px solid #D2D3D3; */
     padding-top: 70vh;
     display: flex;
     /*flex-direction: column; This doesn't work with justify-content*/
@@ -183,6 +202,8 @@ body {
   
 }
 
+
+
 .flexEpisodeContainer:hover .popupButton:hover {
   transition: .5s ease;
   background-color: #D2D3D3;
@@ -214,6 +235,8 @@ body {
   animation: fadeIn 1s;
   
 }
+
+
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {

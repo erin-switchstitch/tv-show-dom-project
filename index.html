@@ -7,24 +7,28 @@
   <title>TV Show Project | Erin Dyson (erin-switchstitch)</title>
   <link href="styleForMobile.css" rel="stylesheet" />
   <link href="style.css" rel="stylesheet" />
+  <link href="styleForCrackedHeading.css" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
-  <div id="root">
-  </div>
-  <!-- <header>
-    This Header is reserved for the search tvshows / filter functionality
-  </header> -->
+
+  <header>
+    <h2 id="HeaderEpisodesNum"></h2>
+  </header>
 
 
   <div class="outerMainContainer">
 
     <div class="seriesHeadingContainer">
+      <div class="seriesTextContainer">
+        <h1 data-text="Game of Thrones" id="cracked_heading_throwaway" class="uncrackedSeriesHeadingText">
+          <span>Game of Thrones</span>
+        </h1>
+      </div>
       <img class="seriesHeadingImage" id="headerImageID"
         alt="May want to use background image on an element rather than img tag"
         src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
-      <h1 class="seriesHeadingText">Game of Thrones</h1>
     </div>
 
     <div class="flexOuterContainer">
@@ -44,7 +48,8 @@
 
   <!-- Loads YOUR javascript code -->
   <script src="script.js"></script>
-  <script src="scriptHeaderImageScroll.js"></script>
+  <script src="imageScrollScript.js"></script>
+  <script src="crackedScript.js"></script>
 </body>
 
 </html>

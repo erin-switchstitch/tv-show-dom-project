@@ -9,8 +9,8 @@ function setup() {
 }
 
 function makePageForEpisodes(episodeList) {
-  const rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+  const episodesNum = document.getElementById("HeaderEpisodesNum");
+  episodesNum.textContent = `Got ${episodeList.length} episode(s)`;
 }
 
 window.onload = setup;
@@ -29,26 +29,49 @@ function popUpFunctionIdSpecific(variable) {
 
 
 const flexOuterContainer = document.querySelector(".flexOuterContainer");
-cl(flexOuterContainer);
 const allEpisodes = getAllEpisodes();
-cl(allEpisodes.length);
 const oneShow = getOneShow();
 
 
+// This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
+// and inserts the new html for each episode
 for (let index = 0; index < allEpisodes.length; index++) {
   const currentEpisode = allEpisodes[index];
 
-  //cl(currentEpisode.summary);
+  // This code converts data to display season and date info e.g. S1E1 --> S01E01  
+  let formatEpisodeNum = currentEpisode.number;
+  let formatSeasonNum = currentEpisode.season;
+  
+  if (formatEpisodeNum < 10){
+    formatEpisodeNum = `0${formatEpisodeNum}`;
+    cl(formatEpisodeNum)
+  }
+  if (formatSeasonNum < 10){
+    formatSeasonNum = `0${formatSeasonNum}`;
+    cl(formatEpisodeNum)
+  }
+
+  // This code below including the while loops, removes all <p></p> and <br> tags. Some of the summaries have these 
+  // tags in the middle of the summary. This solution should remove all of the tags whether at start/middle/end
   var summaryStr = currentEpisode.summary;
-  summaryStr = summaryStr.substring(3, summaryStr.length);
-  summaryStr = summaryStr.substring(0, summaryStr.indexOf("</p>"));
+
+  while (summaryStr.indexOf("<p>") >= 0) {
+    summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<p>"))) + summaryStr.slice((summaryStr.indexOf("<p>"))+3, summaryStr.length); 
+  }
+  
+  while (summaryStr.indexOf("</p>") >= 0) {
+    summaryStr = summaryStr.slice(0,(summaryStr.indexOf("</p>"))) + summaryStr.slice((summaryStr.indexOf("</p>"))+4, summaryStr.length);
+  }
+    while (summaryStr.indexOf("<br>") >= 0) {
+    summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<br>"))) + summaryStr.slice((summaryStr.indexOf("<br>"))+4, summaryStr.length); 
+  }
 
 
   flexOuterContainer.innerHTML += `
    <div class="flexEpisodeContainer">
         <h2 class="episodeTitle">${currentEpisode.name}</h2>
-        <h3 class="episodeNumberElement">Season&nbsp<span class="seasonNum">${currentEpisode.season}</span>&nbspEpisode&nbsp<span
-            class="episodeNum">${currentEpisode.number}</span></h3>
+        <h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+            class="episodeNum">${formatEpisodeNum}</span></h3>
 
         <div class="episodeImageContainer">
           <img class="episodeImage" src=${currentEpisode.image.medium}
