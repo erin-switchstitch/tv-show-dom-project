@@ -1,6 +1,6 @@
 
 
-.cracked_li{
+.seriesTextCracked{
     position: relative;
     font-family: 'Quicksand', Arial, sans-serif;
     color:white;
@@ -27,7 +27,7 @@ body {
     overflow: hidden;
 }*/
 
-.cracked_li span {
+.seriesTextCracked span {
     position: absolute;
     top: 0;
     left: 0;
@@ -39,8 +39,8 @@ body {
             clip-path: polygon(10% 0%, 44% 0%, 70% 100%, 55% 100%);
 }
 
-.cracked_li::before,
-.cracked_li::after {
+.seriesTextCracked::before,
+.seriesTextCracked::after {
     content: attr(data-text);
     position: absolute;
     top: 0;
@@ -49,7 +49,7 @@ body {
 
 /* The before and after seem to be the two sides of the cracked */
 
-.cracked_li::before {
+.seriesTextCracked::before {
     animation: crack1 2.5s linear forwards;
     /* clip-path is the way that the text has been divide up. Can be done in lots of different shapes e.g circle. It works by obscuring part of the element targeted*/
     -webkit-clip-path: polygon(0% 0%, 10% 0%, 55% 100%, 0% 100%);
@@ -58,7 +58,7 @@ body {
 
 /* animation is pure CSS. crack2 refers to the @keyframes that is linked below. It is directed at the h1 element. 2.5s refers to delay. Can add duration here. Linear refers to text moving to one side (i.e. not ease-in-out). Forwards refers to direction.,  */
 
-.cracked_li::after {
+.seriesTextCracked::after {
     animation: crack2 2.5s linear forwards;
     -webkit-clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);
             clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);

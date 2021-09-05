@@ -13,42 +13,43 @@
 
 <body>
 
-  <header>
-    <a class="box A" id="firstBox">Series</a>
-    <a class="box B" id="secondBox">Episodes</a>
-    <a class="box C" id="thirdBox">Search</a>
-    <a class="box D" id="forthBox">NumEpisodes</a>
-    <!-- <h2 id="HeaderEpisodesNum"></h2> -->
-  </header>
-
-
-  <div class="outerMainContainer">
-    
+  <div class="headerContainer">
+    <header>
+      <a class="box A" id="firstBox">Series</a>
+      <a class="box B" id="secondBox">Episodes</a>
+      <a class="box C" id="thirdBox">Search</a>
+      <a class="box D" id="forthBox"><span id="HeaderEpisodesNum"></span></a>
+    </header>
     <div class="subHeader">
-      <div class="subHeaderLeft">
-      </div>
+      <div class="subHeaderLeft"></div>
       <select class="selectBox Hidden" id="selectBoxID">
-        <option>
+        <option></option>
+          <option></option>
       </select>
-      <div class="seriesHeadingContainer">
-        <div class="seriesTextContainer">
-          <h1 data-text="Game of Thrones" class="uncrackedSeriesHeadingText" id="cracked_heading_throwaway" >
-            <span>Game of Thrones</span>
-          </h1>
-        </div>
-      </div>
-      <img class="seriesHeadingImage" id="headerImageID"
-        alt="May want to use background image on an element rather than img tag"
-        src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
-    </div>
-
-    <div class="flexOuterContainer">
-
-
-
     </div>
   </div>
 
+  <div class="outerMainContainer">
+    
+    <div class="seriesContainer">
+        <div class="seriesTextContainer">
+          <h1 data-text="Game of Thrones" class="seriesTextUncracked" id="cracked_heading_throwaway" >
+            <span>Game of Thrones</span>
+          </h1>
+        </div>
+        <div class="seriesImageContainer">
+          <img class="seriesImage" id="headerImageID"
+            alt="May want to use background image on an element rather than img tag"
+            src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
+        </div>
+    </div>
+
+
+    <div class="flexOuterContainer">
+
+    </div>
+
+  </div>
   </div>
 
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->

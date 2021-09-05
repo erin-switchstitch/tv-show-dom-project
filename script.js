@@ -10,7 +10,7 @@ function setup() {
 
 function makePageForEpisodes(episodeList) {
   const episodesNum = document.getElementById("HeaderEpisodesNum");
-  episodesNum.textContent = `Got ${episodeList.length} episode(s)`;
+  episodesNum.textContent = `${episodeList.length} / ${episodeList.length}`;
 }
 
 window.onload = setup;
@@ -21,7 +21,7 @@ window.onload = setup;
 // to pull the corresponding button ID. It then adds the "show" class which 
 // is then targeted in the CSS
 function popUpFunctionIdSpecific(variable) {
-  cl(variable)
+  //cl(variable)
   const popup = document.getElementById(`myPopupIndex${variable}`);
   popup.classList.toggle("show");
 }
@@ -44,11 +44,11 @@ for (let index = 0; index < allEpisodes.length; index++) {
   
   if (formatEpisodeNum < 10){
     formatEpisodeNum = `0${formatEpisodeNum}`;
-    cl(formatEpisodeNum)
+    //cl(formatEpisodeNum)
   }
   if (formatSeasonNum < 10){
     formatSeasonNum = `0${formatSeasonNum}`;
-    cl(formatEpisodeNum)
+    //cl(formatEpisodeNum)
   }
 
   // This code below including the while loops, removes all <p></p> and <br> tags. Some of the summaries have these 

@@ -1,5 +1,8 @@
 const selectBox = document.getElementById("selectBoxID");
 const targetBoxes = document.getElementsByClassName("box");
+const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
+const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
+
 
 const moveLeft = window.innerWidth / (targetBoxes.length);
 const moveDown = "10vh"; 
@@ -23,6 +26,7 @@ for (let i=0; i < targetBoxes.length; i++){
         // First box clicked
         if ((alreadyMoved === false) && (currentMovedIndex <0)) {
             cl("First box clicked");
+            // hideSeriesText();
             newBoxClicked(currentBox, i, move1speed, move2speed);
             // showSelectBox(move2speed);
             alreadyMoved = true; 
@@ -34,6 +38,7 @@ for (let i=0; i < targetBoxes.length; i++){
             sameBoxReturn(currentBox, currentMovedIndex, move1speed, move2speed);
             alreadyMoved = false; 
             currentMovedIndex = -1 ;
+
 
         // Different Boxes Switch > Greater
         } else if ((alreadyMoved === true) && ( i > currentMovedIndex)) {
@@ -68,7 +73,6 @@ for (let i=0; i < targetBoxes.length; i++){
 };
 
 
-
 function showSelectBox(speed){
     selectBox.classList.remove("Hidden");
     selectBox.style.transitionDuration = "500ms";
@@ -80,8 +84,27 @@ function hideSelectBox(speed){
     selectBox.classList.add("Hidden");
 }
 
+function showSeriesText(){
+    if (alreadyMoved === false){
+        seriesContainer.style.zIndex = "0";
+        seriesTextContainer.style.opacity = "1";
+        cl("check below .........")
+        cl(seriesContainer);
+    }
+
+}
+
+function hideSeriesText(){
+    seriesTextContainer.style.opacity = "0.2";
+    seriesContainer.style.zIndex = "-1";
+    cl("check below .........")
+    cl(seriesContainer);
+}
+
+
 function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
     
+    hideSeriesText();
     let currentBoxTranslateX = `${moveLeft * index}`;
    
     // When the first box is clicked the transition duration is set to the fast
@@ -127,6 +150,11 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
         
         setTimeout(function(){
             currentBox.style.transform = `translateY(0)`;
+
+            setTimeout(function(){            
+                showSeriesText();
+            }, (fasterSpeed));
+
         }, (fasterSpeed));
 
     } else {
@@ -136,6 +164,12 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
             currentBox.style.transitionDuration = `${fasterSpeed}ms`;
             currentBox.style.transform = `translateY(0)`;
             currentBox.classList.remove("moved");
+            
+            setTimeout(function(){            
+                showSeriesText();
+            }, (fasterSpeed));
+
         }, (fasterSpeed));
     }
+
 };

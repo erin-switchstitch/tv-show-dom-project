@@ -34,28 +34,28 @@ document.addEventListener('scroll', function(e) {
     
     for(i=0; i<($seriesHeading.length) ; i++) {
     
-        console.log(($seriesHeading[i]));
+        //console.log(($seriesHeading[i]));
         var elementHeight = getPosition($seriesHeading[i]);
-        console.log("Element Height : " + elementHeight);
+        //console.log("Element Height : " + elementHeight);
         var currentIndex = document.getElementById('cracked_heading_throwaway').selectedIndex = [i];
         var currentHeading = $seriesHeading[currentIndex];
         var height_offset = 350;
 
         var episodeHeight = getPosition($episodeContainer[0]);
-        cl($episodeContainer[0])
-        cl("Episode Height : " + episodeHeight)
+        // cl($episodeContainer[0])
+        // cl("Episode Height : " + episodeHeight)
         var sidePanel_opacity =  (episodeHeight - scrollTop) / 400;
 
 
         if (scrollTop > (episodeHeight - 400)){
             cl("SUCCESS")
-            $seriesHeading[i].className = 'cracked_li';
+            $seriesHeading[i].className = 'seriesTextCracked';
             cl($seriesHeading.className)
             //$('#side_panel_heading').css({opacity:sidePanel_opacity});  
-        }   else if ($seriesHeading[i].classList.contains("cracked_li")){
+        }   else if ($seriesHeading[i].classList.contains("seriesTextCracked")){
             //  $('.cracked_li').eq([i]).css({opacity:'1'});  
-            $seriesHeading[i].classList.remove("cracked_li");
-            $seriesHeading[i].classList.add("uncrackedSeriesHeadingText");
+            $seriesHeading[i].classList.remove("seriesTextCracked");
+            $seriesHeading[i].classList.add("seriesTextUncracked");
         }  
         
 
