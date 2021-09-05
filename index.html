@@ -14,17 +14,28 @@
 <body>
 
   <header>
-    <h2 id="HeaderEpisodesNum"></h2>
+    <a class="box A" id="firstBox">Series</a>
+    <a class="box B" id="secondBox">Episodes</a>
+    <a class="box C" id="thirdBox">Search</a>
+    <a class="box D" id="forthBox">NumEpisodes</a>
+    <!-- <h2 id="HeaderEpisodesNum"></h2> -->
   </header>
 
 
   <div class="outerMainContainer">
-
-    <div class="seriesHeadingContainer">
-      <div class="seriesTextContainer">
-        <h1 data-text="Game of Thrones" id="cracked_heading_throwaway" class="uncrackedSeriesHeadingText">
-          <span>Game of Thrones</span>
-        </h1>
+    
+    <div class="subHeader">
+      <div class="subHeaderLeft">
+      </div>
+      <select class="selectBox Hidden" id="selectBoxID">
+        <option>
+      </select>
+      <div class="seriesHeadingContainer">
+        <div class="seriesTextContainer">
+          <h1 data-text="Game of Thrones" class="uncrackedSeriesHeadingText" id="cracked_heading_throwaway" >
+            <span>Game of Thrones</span>
+          </h1>
+        </div>
       </div>
       <img class="seriesHeadingImage" id="headerImageID"
         alt="May want to use background image on an element rather than img tag"
@@ -50,6 +61,7 @@
   <script src="script.js"></script>
   <script src="imageScrollScript.js"></script>
   <script src="crackedScript.js"></script>
+  <script src="headerScript.js"></script>
 </body>
 
 </html>

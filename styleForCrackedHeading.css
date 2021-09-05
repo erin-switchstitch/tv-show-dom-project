@@ -1,12 +1,4 @@
-.seriesTextContainer {
-        display: flex;
-        /* position: fixed; */
-    justify-content: center;
-    align-items: center;
-    height: 10vh;
-    background-color: rgba(0, 0, 0, 0.294);
-    overflow: hidden;
-}
+
 
 .cracked_li{
     position: relative;
