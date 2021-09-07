@@ -1,4 +1,5 @@
 const selectBox = document.getElementById("selectBoxID");
+const inputBox = document.getElementById("inputBoxID");
 const targetBoxes = document.getElementsByClassName("box");
 const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
 const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
@@ -14,8 +15,6 @@ let alreadyMoved = false;
 let currentMovedIndex = -1; 
 
 
-
-
 for (let i=0; i < targetBoxes.length; i++){
     const currentBox = targetBoxes[i];
 
@@ -26,9 +25,7 @@ for (let i=0; i < targetBoxes.length; i++){
         // First box clicked
         if ((alreadyMoved === false) && (currentMovedIndex <0)) {
             cl("First box clicked");
-            // hideSeriesText();
             newBoxClicked(currentBox, i, move1speed, move2speed);
-            // showSelectBox(move2speed);
             alreadyMoved = true; 
             currentMovedIndex = i ; 
 
@@ -73,15 +70,31 @@ for (let i=0; i < targetBoxes.length; i++){
 };
 
 
-function showSelectBox(speed){
-    selectBox.classList.remove("Hidden");
-    selectBox.style.transitionDuration = "500ms";
-    selectBox.classList.add("Show");
+function showSelectBox(index){
+    if (index === 2){
+        cl(inputBox.classList);
+        // inputBox.style.display = "flex";
+        inputBox.classList.remove("Hidden");
+        inputBox.style.transitionDuration = "500ms";
+        inputBox.classList.add("Show");
+    } else {
+        selectBox.classList.remove("Hidden");
+        selectBox.style.transitionDuration = "500ms";
+        selectBox.classList.add("Show");
+    }
+
 }
 
-function hideSelectBox(speed){
-    selectBox.classList.remove("Show");
-    selectBox.classList.add("Hidden");
+function hideSelectBox(index){
+    if (index === 2){
+        cl(inputBox.classList);
+        inputBox.classList.remove("Show");
+        inputBox.style.transitionDuration = "500ms";
+        inputBox.classList.add("Hidden");
+    } else {
+        selectBox.classList.remove("Show");
+        selectBox.classList.add("Hidden");
+    }
 }
 
 function showSeriesText(){
@@ -113,10 +126,12 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
         currentBox.classList.add("moved");
         currentBox.style.transitionDuration = `${fasterSpeed}ms`;
         currentBox.style.transform = `translateY(${moveDown})`;
+
+
         
         setTimeout(function(){
             cl("Select Across")
-            showSelectBox();
+            showSelectBox(index);
         }, (fasterSpeed));
 
     // When a new box is clicked and is not the first box
@@ -133,7 +148,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
             
             setTimeout(function(){
                 cl("Select Across")
-                showSelectBox();
+                showSelectBox(index);
             }, (switchDelay));
 
         }, (fasterSpeed));
@@ -145,7 +160,7 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
     
     if (index != 0){
         currentBox.classList.remove("moved");
-        hideSelectBox(fasterSpeed);
+        hideSelectBox(index);
         currentBox.style.transform = `translateX(0px) translateY(${moveDown})`;
         
         setTimeout(function(){
@@ -158,7 +173,7 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
         }, (fasterSpeed));
 
     } else {
-        hideSelectBox(fasterSpeed);
+        hideSelectBox(index);
 
         setTimeout(function(){
             currentBox.style.transitionDuration = `${fasterSpeed}ms`;

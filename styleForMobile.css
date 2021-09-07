@@ -99,6 +99,24 @@ header a {
 
 }
 
+.inputBox.Hidden{
+
+    width:0vw;
+    overflow: hidden;
+    position: fixed;
+    margin-left: -80vw;
+    margin-top: 2.5vh;
+
+    
+}
+
+.inputBox.Show{
+    margin-left: 22.5vw;
+    margin-top: 2.5vh;
+    width:50vw;
+
+}
+
 
 /* -----------  Styling for the main container  ------------- */
   
@@ -343,4 +361,22 @@ header a {
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity:1 ;}
+}
+
+
+
+
+/* ------ Styling code for loadMoreButton ---------- */
+
+.loadMoreContainer{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+
+.loadMoreButton {
+  display: flex;
+
 }

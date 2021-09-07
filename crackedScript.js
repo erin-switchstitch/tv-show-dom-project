@@ -48,9 +48,9 @@ document.addEventListener('scroll', function(e) {
 
 
         if (scrollTop > (episodeHeight - 400)){
-            cl("SUCCESS")
+            //cl("SUCCESS")
             $seriesHeading[i].className = 'seriesTextCracked';
-            cl($seriesHeading.className)
+            //cl($seriesHeading.className)
             //$('#side_panel_heading').css({opacity:sidePanel_opacity});  
         }   else if ($seriesHeading[i].classList.contains("seriesTextCracked")){
             //  $('.cracked_li').eq([i]).css({opacity:'1'});  
