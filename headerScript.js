@@ -1,11 +1,11 @@
-const selectBox = document.getElementById("selectBoxID");
-const inputBox = document.getElementById("inputBoxID");
-const targetBoxes = document.getElementsByClassName("box");
-const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
-const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
+// const selectBox = document.getElementById("selectBoxID");
+// const inputBox = document.getElementById("inputBoxID");
+// const targetBoxes = document.getElementsByClassName("box");
+// const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
+// const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
 
+/* -----------------------UPDATE MOVE LEFT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ----------------------- */
 
-const moveLeft = window.innerWidth / (targetBoxes.length);
 const moveDown = "10vh"; 
 const move1speed = 500;
 const move2speed = 1000;
@@ -100,7 +100,7 @@ function hideSelectBox(index){
 function showSeriesText(){
     if (alreadyMoved === false){
         seriesContainer.style.zIndex = "0";
-        seriesTextContainer.style.opacity = "1";
+        // seriesTextContainer.style.opacity = "1";
         cl("check below .........")
         cl(seriesContainer);
     }
@@ -108,7 +108,7 @@ function showSeriesText(){
 }
 
 function hideSeriesText(){
-    seriesTextContainer.style.opacity = "0.2";
+    // seriesTextContainer.style.opacity = "0.2";
     seriesContainer.style.zIndex = "-1";
     cl("check below .........")
     cl(seriesContainer);
@@ -117,6 +117,8 @@ function hideSeriesText(){
 
 function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
     
+    let moveLeft = window.innerWidth / (targetBoxes.length);
+
     hideSeriesText();
     let currentBoxTranslateX = `${moveLeft * index}`;
    

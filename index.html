@@ -23,7 +23,7 @@
     <div class="subHeader">
       <div class="subHeaderLeft"></div>
       <select class="selectBox Hidden" id="selectBoxID">
-        <option></option>
+        <!-- <option>This is where the Series/Episode list will be added</option> -->
       </select>
       <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()" placeholder="Search for episodes..">
     </div>
@@ -38,9 +38,11 @@
           </h1>
         </div>
         <div class="seriesImageContainer">
+          <!--<div class="seriesImageOverlay"></div> -->
           <img class="seriesImage" id="headerImageID"
-            alt="May want to use background image on an element rather than img tag"
+            alt="TV series background image"
             src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
+            
         </div>
     </div>
 
@@ -54,6 +56,9 @@
     </div>
   </div>
   </div>
+  <footer>
+    <h2 id="footerID">This is my footer</h2>
+  </footer>
 
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
   <script src="episodes.js"></script>

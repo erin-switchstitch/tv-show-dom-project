@@ -23,58 +23,32 @@ function getPosition(element) {
 }
 
 
-var $seriesHeading = document.querySelectorAll("#cracked_heading_throwaway");
-var $episodeContainer = document.querySelectorAll(".flexEpisodeContainer");
-
-
+var $seriesHeading = document.getElementById("cracked_heading_throwaway");
 
 document.addEventListener('scroll', function(e) {
+    // getPosition returns a fixed numerical result. Use this with scrollTop to work out how far
+    // from the top the element will be...
     var scrollTop = window.scrollY;
-    
-    
-    for(i=0; i<($seriesHeading.length) ; i++) {
-    
-        //console.log(($seriesHeading[i]));
-        var elementHeight = getPosition($seriesHeading[i]);
-        //console.log("Element Height : " + elementHeight);
-        var currentIndex = document.getElementById('cracked_heading_throwaway').selectedIndex = [i];
-        var currentHeading = $seriesHeading[currentIndex];
-        var height_offset = 350;
+    var $episodeContainer = document.querySelectorAll(".flexEpisodeContainer");
 
-        var episodeHeight = getPosition($episodeContainer[0]);
-        // cl($episodeContainer[0])
-        // cl("Episode Height : " + episodeHeight)
-        var sidePanel_opacity =  (episodeHeight - scrollTop) / 400;
+    var episodeHeight = getPosition($episodeContainer[0]);
+    var seriesTextHeight = getPosition($seriesHeading);
+    var triggerHeight = (episodeHeight - (seriesTextHeight * 2.5));
+    var sidePanel_opacity =  (episodeHeight - scrollTop) / 400;
 
+    // cl(scrollTop + "  : scrollTop");
+    // cl(episodeHeight + "  : episodeHeight")
+    // cl(seriesTextHeight);
 
-        if (scrollTop > (episodeHeight - 400)){
-            //cl("SUCCESS")
-            $seriesHeading[i].className = 'seriesTextCracked';
-            //cl($seriesHeading.className)
-            //$('#side_panel_heading').css({opacity:sidePanel_opacity});  
-        }   else if ($seriesHeading[i].classList.contains("seriesTextCracked")){
-            //  $('.cracked_li').eq([i]).css({opacity:'1'});  
-            $seriesHeading[i].classList.remove("seriesTextCracked");
-            $seriesHeading[i].classList.add("seriesTextUncracked");
-        }  
-        
+    if (scrollTop > triggerHeight){
+        $seriesHeading.className = 'seriesTextCracked';
+        //$('#side_panel_heading').css({opacity:sidePanel_opacity});  
 
-        // if (scrollTop > (elementHeight - height_offset)) {
-        //     //console.log($ul_li[i])
-        //     //console.log("scroll :" + scrollTop);
-        //     //console.log("elementHeight :" + elementHeight);
-        //     /*console.log("ST - EH" + $ul_li[i] + (scrollTop - elementHeight));*/
-            
-        //     // var li_opacity =  (elementHeight - scrollTop) / height_offset;
-    
-        //     // $seriesHeading.className = 'cracked_li';
-        //     // cl($seriesHeading.className)
-            
-        //     //$('.cracked_li').eq([i]).css({opacity:li_opacity});  
-        
-        // } 
-    
-    }
+    } else if ((scrollTop < triggerHeight) && ($seriesHeading.classList.contains("seriesTextCracked"))){
+        $seriesHeading.classList.remove("seriesTextCracked");
+        $seriesHeading.classList.add("seriesTextUncracked");
+        //  $('.cracked_li').eq([i]).css({opacity:'1'});  
+    }  
 });
 
 
@@ -82,30 +56,6 @@ document.addEventListener('scroll', function(e) {
 
 
 
-
-
-
-
-
-
-
-
-/*
-
-let h1 = document.querySelector('h1');
-
-var viewportOffset = h1.getBoundingClientRect();
-// these are relative to the viewport
-var top = viewportOffset.top;
-var left = viewportOffset.left;
-
-console.log(top);
-
-
-
-
-
-*/
 
 
 

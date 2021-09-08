@@ -6,10 +6,43 @@ const allEpisodes = getAllEpisodes();
 const oneShow = getOneShow();
 const flexOuterContainer = document.querySelector(".flexOuterContainer");
 const loadMoreID = document.getElementById("loadMoreID");
+const selectBox = document.getElementById("selectBoxID");
+const inputBox = document.getElementById("inputBoxID");
+const targetBoxes = document.getElementsByClassName("box");
+const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
+const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
+
+
 
 const episodeLimitVariable = 20;
 let initialLimitLower = 0;
 let initialLimitUpper = episodeLimitVariable;
+let allEpisodesIndexArray =[];
+
+function createAllEpisodesIndexArray(arrayToCovert){
+  for (let index = 0; index < arrayToCovert.length; index++) {
+    // This creates an array with all the index positions of the full episode list
+    allEpisodesIndexArray.push(index);
+    
+    // Below populates the select list for the epsiode header button
+    let currentEpisode = arrayToCovert[index];
+    let formatEpisodeNum = currentEpisode.number;
+    let formatSeasonNum = currentEpisode.season;
+    
+    if (formatEpisodeNum < 10){
+      formatEpisodeNum = `0${formatEpisodeNum}`;
+    }
+    if (formatSeasonNum < 10){
+      formatSeasonNum = `0${formatSeasonNum}`;
+    }
+    selectBox.innerHTML += `
+          <option><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+              class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
+    `
+  }
+}
+createAllEpisodesIndexArray(allEpisodes);
+  cl(allEpisodesIndexArray);
 
 function loadMoreFunction(){
   if (initialLimitUpper === allEpisodes.length){
@@ -18,13 +51,41 @@ function loadMoreFunction(){
   } else if (initialLimitUpper > (allEpisodes.length-episodeLimitVariable)){
     initialLimitLower += episodeLimitVariable; 
     initialLimitUpper = allEpisodes.length;
-    displayEpisodes(allEpisodes,initialLimitLower,initialLimitUpper);
+    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
 
   } else {
       updateLimitValues();
-      displayEpisodes(allEpisodes,initialLimitLower,initialLimitUpper);
+      displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
   }
 }
+
+
+
+
+// I would proberly be best to rewrite all this loadMore function to accomidate the 
+// search results and loading for more of them. If not I'll be doubling up alot of 
+// my code. Actually double check that - i may not have to since changing the 
+// array input for the main displayEpisodes function as it's no longer done 
+// by passing full arrayobject info - it's done on index numbers 
+
+
+
+
+function loadMoreSearchFunction(searchLowerLimit){
+  if (initialLimitUpper === allEpisodes.length){
+    window.alert("No more episodes to load");
+
+  } else if (initialLimitUpper > (allEpisodes.length-episodeLimitVariable)){
+    initialLimitLower += episodeLimitVariable; 
+    initialLimitUpper = allEpisodes.length;
+    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
+
+  } else {
+      updateLimitValues();
+      displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
+  }
+}
+
 
 function updateLimitValues () {
   // cl(initialLimitLower += episodeLimitVariable);
@@ -33,29 +94,38 @@ function updateLimitValues () {
   initialLimitUpper += episodeLimitVariable;
 }
 
-function createLoadMoreButton(){
-  loadMoreID.innerHTML += `
-  <div class="loadMoreContainer">
-    <button class="loadMoreButton" onclick="loadMoreFunction()">Load More Episodes</button>
-  </div> 
-  `;
+function createLoadMoreButton(source){
+  if (source === "loadFromSearch") {
+    loadMoreID.innerHTML = `
+        <div class="loadMoreContainer">
+          <button class="loadMoreButton" onclick="loadMoreSearchFunction()">Load More Episodes</button>
+        </div> 
+      `;
+  } else {
+      loadMoreID.innerHTML = `
+        <div class="loadMoreContainer">
+          <button class="loadMoreButton" onclick="loadMoreFunction()">Load More Episodes</button>
+        </div> 
+      `;
+  }
 }
 
 function makePageForEpisodes(episodeList) {
   const episodesNum = document.getElementById("HeaderEpisodesNum");
-  episodesNum.textContent = `${episodeList.length} / ${episodeList.length}`;
+  episodesNum.textContent = `${episodeList.length} / ${allEpisodes.length}`;
 }
 
 function setup() {
   makePageForEpisodes(allEpisodes);
+
   cl(allEpisodes.length > episodeLimitVariable);
 
   if (allEpisodes.length > episodeLimitVariable) {
     cl("working")
-    displayEpisodes(allEpisodes,initialLimitLower,initialLimitUpper);
+    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
     createLoadMoreButton();
   } else {
-    displayEpisodes(allEpisodes,0,allEpisodes.length);
+    displayEpisodes(allEpisodesIndexArray,0,allEpisodesIndexArray.length);
   }
 }
 
@@ -80,8 +150,11 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
   // This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
   // and inserts the new html for each episode
   for (let index = lowerLimit; index < upperLimit; index++) {
-    const currentEpisode = episodeArray[index];
-
+    //cl(allEpisodes[72])
+    //cl(episodeArray[index])
+    let currentEpisodeIndex = episodeArray[index] ; 
+    const currentEpisode = allEpisodes[currentEpisodeIndex];
+    //cl(currentEpisode)
     // This code converts data to display season and date info e.g. S1E1 --> S01E01  
     let formatEpisodeNum = currentEpisode.number;
     let formatSeasonNum = currentEpisode.season;
