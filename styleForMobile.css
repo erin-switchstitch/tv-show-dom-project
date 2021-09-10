@@ -4,7 +4,7 @@
 
 * { 
     Box-sizing: Border-box; 
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-family: "Ubuntu","Arial",sans-serif;
 } 
 
 html {
@@ -32,7 +32,7 @@ body {
   background-color: #40095e;
   height: var( --header-offset);
   justify-content: space-around;
-     z-index: 10;
+  z-index: 10;
 }
 
 header {
@@ -62,9 +62,24 @@ header a {
     background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));
     /* background-color: rgba(128, 128, 128, 0.123);     */
     color: white;
+    font-family: "Share";
+    letter-spacing: 1.4px;
+    font-weight: 400;
     z-index: 11;
 
 }
+
+header a:hover {
+
+    border: 2px inset rgba(98, 1, 136, 0.253);
+    border-bottom: #9615DB 3px solid;
+    border-radius: 2px;
+    background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));
+    /* background-color: rgba(128, 128, 128, 0.123);     */
+    color: blue;
+
+}
+
 
 .box.moved {
   background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
@@ -82,7 +97,7 @@ header a {
     height: 10vh;
     background: linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0));  
     z-index: 5;
-
+    opacity: 0;
 }
 
 .subHeaderLeft {
@@ -189,10 +204,11 @@ header a {
 
 .seriesTextUncracked{
   position: relative;
-  font-family: 'Quicksand', Arial, sans-serif;
+  font-family: 'Share', Arial, sans-serif;
   color:white;
   font-size: 2rem;
   font-weight: 700;
+  
   color: #fff;
   letter-spacing: 0.02em;
   text-shadow: 1px 2px 0.15em #9615DB;
@@ -234,6 +250,8 @@ header a {
     width: 100%;
     height: 100%;
     justify-content: center;
+        padding-left: 10vw;
+    padding-right: 10vw;
 
     
 }
@@ -241,7 +259,28 @@ header a {
 /* -----------  Styling for the individual episodes ----------- */
 
 .flexEpisodeContainer {
-    border:5px solid #D2D3D3;
+  flex: 1 0 21%; /* explanation below */
+
+  /* height: 100px; */
+
+  
+  
+  border:5px solid #D2D3D3;
+    border-radius: 10px;
+    background-color: #2D3032;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    min-width: 300px;
+    /* max-width: 300px; */
+
+    margin: 10px;
+    row-gap:12px ;   
+    z-index: 8; /*<--------------------------------------------------------- This controls pic index*/
+}
+
+ /* border:5px solid #D2D3D3;
     border-radius: 10px;
     background-color: #2D3032;
     color: white;
@@ -251,8 +290,7 @@ header a {
     width: 300px;
     margin: 10px;
     row-gap:12px ;   
-    z-index: 8; /*<--------------------------------------------------------- This controls pic index*/
-}
+    z-index: 8; <--------------------------------------------------------- This controls pic index */
 
 .flexEpisodeContainer:hover {
   transition: .5s ease;
@@ -271,6 +309,7 @@ header a {
     padding-bottom: 10px;
     border-bottom: solid 2px #9615dbbe;
     padding-top: 10px;
+    font-family: "Share";
     
 }
 

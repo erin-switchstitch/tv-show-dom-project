@@ -183,10 +183,10 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<br>"))) + summaryStr.slice((summaryStr.indexOf("<br>"))+4, summaryStr.length); 
     }
 
-
+    let passEpisodeTitle = currentEpisode.name;
     flexOuterContainer.innerHTML += `
     <div class="flexEpisodeContainer">
-          <h2 class="episodeTitle">${currentEpisode.name}</h2>
+          <h2 class="episodeTitle">${passEpisodeTitle.toUpperCase()}</h2>
           <h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
               class="episodeNum">${formatEpisodeNum}</span></h3>
 
