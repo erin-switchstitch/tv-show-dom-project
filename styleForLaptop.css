@@ -1,0 +1,21 @@
+.headerContainer{
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  background-color: purple;
+  height: var( --header-offset);
+  justify-content: space-around;
+}
+
+header {
+   display: flex;
+   position: fixed;
+   width: 80vw;
+   height: var( --header-offset);
+   justify-content: space-around;
+   align-content: space-around;
+   background-color:#131213;
+    border-bottom: #9615db4f 2px solid;
+   /* border-bottom: #9615DB 5px solid; */
+   z-index: 10;
+}

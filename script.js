@@ -11,13 +11,21 @@ const inputBox = document.getElementById("inputBoxID");
 const targetBoxes = document.getElementsByClassName("box");
 const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
 const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
-
-
+const headerContainer = document.getElementsByClassName("headerContainer")[0];
+const headerTag = document.getElementsByTagName("header")[0];
+const subHeaderContainer = document.getElementsByClassName("subHeader")[0];
+const episodeNumBoxID = document.getElementById("episodeNumBoxID");
 
 const episodeLimitVariable = 20;
 let initialLimitLower = 0;
 let initialLimitUpper = episodeLimitVariable;
 let allEpisodesIndexArray =[];
+let searchIndexArray =[];
+
+
+
+/*------------ Code creates an array of indexes for the allEpisodes function --------------------
+  ------------   This array is then passed to main displayEpisodes function  --------------------*/
 
 function createAllEpisodesIndexArray(arrayToCovert){
   for (let index = 0; index < arrayToCovert.length; index++) {
@@ -36,83 +44,65 @@ function createAllEpisodesIndexArray(arrayToCovert){
       formatSeasonNum = `0${formatSeasonNum}`;
     }
     selectBox.innerHTML += `
-          <option><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
               class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
     `
   }
 }
 createAllEpisodesIndexArray(allEpisodes);
-  cl(allEpisodesIndexArray);
-
-function loadMoreFunction(){
-  if (initialLimitUpper === allEpisodes.length){
-    window.alert("No more episodes to load");
-
-  } else if (initialLimitUpper > (allEpisodes.length-episodeLimitVariable)){
-    initialLimitLower += episodeLimitVariable; 
-    initialLimitUpper = allEpisodes.length;
-    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-
-  } else {
-      updateLimitValues();
-      displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-  }
-}
+cl(allEpisodesIndexArray);
 
 
+  
 
-
-// I would proberly be best to rewrite all this loadMore function to accomidate the 
-// search results and loading for more of them. If not I'll be doubling up alot of 
-// my code. Actually double check that - i may not have to since changing the 
-// array input for the main displayEpisodes function as it's no longer done 
-// by passing full arrayobject info - it's done on index numbers 
-
-
-
-
-function loadMoreSearchFunction(searchLowerLimit){
-  if (initialLimitUpper === allEpisodes.length){
-    window.alert("No more episodes to load");
-
-  } else if (initialLimitUpper > (allEpisodes.length-episodeLimitVariable)){
-    initialLimitLower += episodeLimitVariable; 
-    initialLimitUpper = allEpisodes.length;
-    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-
-  } else {
-      updateLimitValues();
-      displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-  }
-}
-
-
-function updateLimitValues () {
-  // cl(initialLimitLower += episodeLimitVariable);
-  // cl(initialLimitUpper += episodeLimitVariable);
-  initialLimitLower += episodeLimitVariable;
-  initialLimitUpper += episodeLimitVariable;
-}
+/*------------ Code for the loadMore Button (both from searchInput and fullEpisodeArray) --------------------*/
 
 function createLoadMoreButton(source){
   if (source === "loadFromSearch") {
     loadMoreID.innerHTML = `
         <div class="loadMoreContainer">
-          <button class="loadMoreButton" onclick="loadMoreSearchFunction()">Load More Episodes</button>
+          <button class="loadMoreButton" onclick="loadMoreFunction(searchIndexArray)">Load More Episodes</button>
         </div> 
       `;
   } else {
       loadMoreID.innerHTML = `
         <div class="loadMoreContainer">
-          <button class="loadMoreButton" onclick="loadMoreFunction()">Load More Episodes</button>
+          <button class="loadMoreButton" onclick="loadMoreFunction(allEpisodesIndexArray)">Load More Episodes</button>
         </div> 
       `;
   }
 }
 
+
+function loadMoreFunction(array){
+  if (initialLimitUpper === array.length){
+    window.alert("No more episodes to load");
+
+  } else if (initialLimitUpper > (array.length-episodeLimitVariable)){
+    initialLimitLower += episodeLimitVariable; 
+    initialLimitUpper = array.length;
+    displayEpisodes(array,initialLimitLower,initialLimitUpper);
+
+  } else {
+      updateLimitValues();
+      displayEpisodes(array,initialLimitLower,initialLimitUpper);
+  }
+}
+
+
+function updateLimitValues () {
+  initialLimitLower += episodeLimitVariable;
+  initialLimitUpper += episodeLimitVariable;
+}
+
+
+/*-------- Setup function for the initial page load and the 73/73 button functionality --------------------*/
+
 function makePageForEpisodes(episodeList) {
   const episodesNum = document.getElementById("HeaderEpisodesNum");
+  const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
   episodesNum.textContent = `${episodeList.length} / ${allEpisodes.length}`;
+  subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${allEpisodes.length} `;
 }
 
 function setup() {
@@ -132,6 +122,10 @@ function setup() {
 window.onload = setup;
 
 
+function resetEpisodesHTML() {
+  flexOuterContainer.innerHTML = "";
+}
+
 
 
 // This function works by taking a variable which is the index from the for loop 
@@ -144,9 +138,15 @@ function popUpFunctionIdSpecific(variable) {
 
 
 
+
+
+
+/*------------ Main displayEpisodes function that creates the episode containers --------------------*/
+
+
 // I need to pass displayEpisodes an array of objects [{},{}]
 function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
-
+  cl(episodeArray);
   // This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
   // and inserts the new html for each episode
   for (let index = lowerLimit; index < upperLimit; index++) {

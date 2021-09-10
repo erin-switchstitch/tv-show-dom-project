@@ -1,17 +1,25 @@
+/* ------------------ selectBox eventListener --------------------- */
 
-function resetEpisodesHTML() {
-  flexOuterContainer.innerHTML = "";
+document.getElementsByTagName('select')[0].onchange = function() {
+  var index = this.selectedIndex;
+  console.log(index -1);
+  resetEpisodesHTML()
+  displayEpisodes(allEpisodesIndexArray,index -1,index);
 }
 
+
+
+
+/* ---------------------- searchInput function  --------------------- */
 
 function searchFunction(){
     cl("search function run")
     
     let searchInput = document.getElementById("inputBoxID").value;
-    let exportArray =[];
+    searchIndexArray =[];
     let checkArrayByID =[];
     //cl(searchInput)
-    cl(exportArray.length)
+    cl(searchIndexArray.length)
 
     if ((searchInput != "<empty string>") && (searchInput.length > 0) && (searchInput.length<50)) {
 
@@ -34,28 +42,30 @@ function searchFunction(){
                         
                         if(checkArrayByID.includes(currentEpisode.id) === false){
                             checkArrayByID.push(currentEpisode.id);
-                            exportArray.push(index);
+                            searchIndexArray.push(index);
                         }
-                        //cl(`Season ${currentEpisode.season} - Episode ${currentEpisode.number}`)
-                      
-                        // cl(checkArrayByID);
-                        cl(exportArray)
-                        // cl(checkArrayByID.includes(4952));
-
-                      
-
                     }
-
                 }
             }
-              resetEpisodesHTML();
-              displayEpisodes(exportArray,0,exportArray.length);
-              makePageForEpisodes(exportArray);
         }
+
+    resetEpisodesHTML();
+    cl(searchIndexArray)
+    if (searchIndexArray.length > episodeLimitVariable) {
+        displayEpisodes(searchIndexArray,0,episodeLimitVariable);
+        createLoadMoreButton("loadFromSearch");
+    } else {
+        displayEpisodes(searchIndexArray,0,searchIndexArray.length);
+    }
+    
+    makePageForEpisodes(searchIndexArray);
+
     } else if ((searchInput.length>50) || (searchInput === "<empty string>")){
         window.alert("Search input is not valid or is too long");
         document.getElementById("inputBoxID").value = "";
     } else if (searchInput.length === 0){
-        displayEpisodes(allEpisodes);
+        cl("Search = 0")
+        resetEpisodesHTML();
+        setup();
     }
 }

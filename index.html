@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TV Show Project | Erin Dyson (erin-switchstitch)</title>
   <link href="styleForMobile.css" rel="stylesheet" />
-  <link href="style.css" rel="stylesheet" />
+  <link rel="stylesheet" media="screen and (min-width:600px)" href="styleForLaptop.css" type="text/css">
   <link href="styleForCrackedHeading.css" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -23,27 +23,30 @@
     <div class="subHeader">
       <div class="subHeaderLeft"></div>
       <select class="selectBox Hidden" id="selectBoxID">
+        <option value="" disabled selected>Select your option</option>
         <!-- <option>This is where the Series/Episode list will be added</option> -->
       </select>
-      <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()" placeholder="Search for episodes..">
+      <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()"
+        placeholder="Search for episodes..">
+      <a class="episodeNumBox Hidden" id="episodeNumBoxID">Currently showing<span id="subHeaderEpisodesNum"></span>
+        episodes</a>
     </div>
   </div>
 
   <div class="outerMainContainer">
-    
+
     <div class="seriesContainer">
-        <div class="seriesTextContainer">
-          <h1 data-text="Game of Thrones" class="seriesTextUncracked" id="cracked_heading_throwaway" >
-            <span>Game of Thrones</span>
-          </h1>
-        </div>
-        <div class="seriesImageContainer">
-          <!--<div class="seriesImageOverlay"></div> -->
-          <img class="seriesImage" id="headerImageID"
-            alt="TV series background image"
-            src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
-            
-        </div>
+      <div class="seriesTextContainer">
+        <h1 data-text="Game of Thrones" class="seriesTextUncracked" id="cracked_heading_throwaway">
+          <span>Game of Thrones</span>
+        </h1>
+      </div>
+      <div class="seriesImageContainer">
+        <!--<div class="seriesImageOverlay"></div> -->
+        <img class="seriesImage" id="headerImageID" alt="TV series background image"
+          src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
+
+      </div>
     </div>
 
 
