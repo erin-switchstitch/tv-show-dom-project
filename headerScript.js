@@ -94,16 +94,22 @@ function showSelectBox(index, innerBoxSize){
         inputBox.style.marginLeft = `${(innerBoxSize)}px`;
         inputBox.classList.add("Show");
 
-    } else if (index==3){
+    } else if (index === 3){
         episodeNumBoxID.classList.remove("Hidden");
         episodeNumBoxID.style.transitionDuration = "500ms";
         episodeNumBoxID.style.marginLeft = `${(innerBoxSize)}px`;
         episodeNumBoxID.classList.add("Show");
-    } else {
+    } else if (index === 1){
         selectBox.classList.remove("Hidden");
         selectBox.style.transitionDuration = "500ms";
         selectBox.style.marginLeft = `${(innerBoxSize)}px`;
         selectBox.classList.add("Show");
+    } else {
+        
+        seriesSelectBox.classList.remove("Hidden");
+        seriesSelectBox.style.transitionDuration = "500ms";
+        seriesSelectBox.style.marginLeft = `${(innerBoxSize)}px`;
+        seriesSelectBox.classList.add("Show");
     }
 
 }
@@ -123,11 +129,16 @@ function hideSelectBox(index, innerBoxSize){
         episodeNumBoxID.style.marginLeft = `-${(innerBoxSize*3)}px`;
         episodeNumBoxID.classList.add("Hidden");
 
-    }else {
+    } else if (index === 1){
         selectBox.classList.remove("Show");
         selectBox.style.transitionDuration = "500ms";
         selectBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
         selectBox.classList.add("Hidden");
+    } else {
+        seriesSelectBox.classList.remove("Show");
+        seriesSelectBox.style.transitionDuration = "500ms";
+        seriesSelectBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
+        seriesSelectBox.classList.add("Hidden");
     }
 }
 
@@ -263,3 +274,5 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
     }
 
 };
+
+

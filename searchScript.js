@@ -1,6 +1,14 @@
-/* ------------------ selectBox eventListener --------------------- */
+/*------------------ Search Logic - select episode/series ---------------------------------------------- */
+
 
 document.getElementsByTagName('select')[0].onchange = function() {
+  var index = this.selectedIndex;
+  console.log(index -1);
+  resetEpisodesHTML()
+  displayEpisodes(allEpisodesIndexArray,index -1,index);
+}
+
+document.getElementsByTagName('select')[1].onchange = function() {
   var index = this.selectedIndex;
   console.log(index -1);
   resetEpisodesHTML()
@@ -10,7 +18,7 @@ document.getElementsByTagName('select')[0].onchange = function() {
 
 
 
-/* ---------------------- searchInput function  --------------------- */
+/*------------------ Search Logic - search function ---------------------------------------------- */
 
 function searchFunction(){
     cl("search function run")
@@ -57,8 +65,8 @@ function searchFunction(){
     } else {
         displayEpisodes(searchIndexArray,0,searchIndexArray.length);
     }
-    
-    makePageForEpisodes(searchIndexArray);
+
+    populateEpisodeButton(searchIndexArray);
 
     } else if ((searchInput.length>50) || (searchInput === "<empty string>")){
         window.alert("Search input is not valid or is too long");

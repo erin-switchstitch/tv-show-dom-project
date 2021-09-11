@@ -74,12 +74,18 @@ header a:hover {
     border: 2px inset rgba(98, 1, 136, 0.253);
     border-bottom: #9615DB 3px solid;
     border-radius: 2px;
-    background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));
+    color: purple;
+    /* background: rgb(28,16,31);
+    background: radial-gradient(circle, rgba(28,16,31,1) 0%, rgba(0,0,0,1) 35%, rgba(139,4,162,1) 100%); */
     /* background-color: rgba(128, 128, 128, 0.123);     */
-    color: blue;
-
+    /* -webkit-animation:transitionColor 5s infinite; */
 }
 
+/* @-webkit-keyframes transitionColor {
+    0% {background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));}
+    100% {background: radial-gradient(circle, rgba(28,16,31,1) 0%, rgba(0,0,0,1) 35%, rgba(139,4,162,1) 100%);;}
+}
+ */
 
 .box.moved {
   background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
@@ -274,7 +280,7 @@ header a:hover {
     align-content: center;
     min-width: 300px;
     /* max-width: 300px; */
-
+    min-height: 500px;
     margin: 10px;
     row-gap:12px ;   
     z-index: 8; /*<--------------------------------------------------------- This controls pic index*/

@@ -1,12 +1,12 @@
-//const { doc } = require("prettier");
+/*------------------------------------- Global Variables --------------------------------------- */
 
-//You can edit ALL of the code here
 const cl = console.log;
-const allEpisodes = getAllEpisodes();
-const oneShow = getOneShow();
+let allEpisodes;
+const allShows = getAllShows();
 const flexOuterContainer = document.querySelector(".flexOuterContainer");
 const loadMoreID = document.getElementById("loadMoreID");
 const selectBox = document.getElementById("selectBoxID");
+const seriesSelectBox = document.getElementById("seriesSelectBoxID");
 const inputBox = document.getElementById("inputBoxID");
 const targetBoxes = document.getElementsByClassName("box");
 const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
@@ -20,19 +20,60 @@ const episodeLimitVariable = 20;
 let initialLimitLower = 0;
 let initialLimitUpper = episodeLimitVariable;
 let allEpisodesIndexArray =[];
+let allSeriesIndexArray = [];
 let searchIndexArray =[];
 
 
+/*--------------------------------------- API code --------------------------------------- */
+
+cl(allShows)
+
+fetch('https://api.tvmaze.com/shows/82/episodes')
+  .then(response => response.json())
+  .then((data) => {
+    allEpisodes = data; 
+    console.log(allEpisodes)
+    createAllEpisodesIndexArray(allEpisodes);
+    cl(allEpisodesIndexArray);
+    setup()
+  });
 
 /*------------ Code creates an array of indexes for the allEpisodes function --------------------
   ------------   This array is then passed to main displayEpisodes function  --------------------*/
 
+
+function createAllSeriesIndexArray(arrayToCovert){
+for (let index = 0; index < arrayToCovert.length; index++) {
+    // This creates an array with all the index positions of the full episode list
+    allSeriesIndexArray.push(index);
+    
+    // Below populates the select list for the epsiode header button
+    let currentSeries = arrayToCovert[index];
+    let formatSeriesName = currentSeries.name;
+    // cl(formatSeriesName);
+    
+    // if (formatEpisodeNum < 10){
+    //   formatEpisodeNum = `0${formatEpisodeNum}`;
+    // }
+    // if (formatSeasonNum < 10){
+    //   formatSeasonNum = `0${formatSeasonNum}`;
+    // }
+    seriesSelectBox.innerHTML += `
+          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${0}</span>E<span
+              class="episodeNum">${0}</span> - ${formatSeriesName}</h3></option>
+    `
+  }
+}
+
+
+
+
 function createAllEpisodesIndexArray(arrayToCovert){
-  for (let index = 0; index < arrayToCovert.length; index++) {
+  for (let index = 0; index < arrayToCovert.length; index++) {  
     // This creates an array with all the index positions of the full episode list
     allEpisodesIndexArray.push(index);
     
-    // Below populates the select list for the epsiode header button
+    // Below populates the select list for the episode header button
     let currentEpisode = arrayToCovert[index];
     let formatEpisodeNum = currentEpisode.number;
     let formatSeasonNum = currentEpisode.season;
@@ -49,12 +90,40 @@ function createAllEpisodesIndexArray(arrayToCovert){
     `
   }
 }
-createAllEpisodesIndexArray(allEpisodes);
-cl(allEpisodesIndexArray);
+
+/*-------- Setup function for the initial page load and the 73/73 button functionality --------------------*/
+
+function populateEpisodeButton(episodeList) {
+  const episodesNum = document.getElementById("HeaderEpisodesNum");
+  const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
+  episodesNum.textContent = `${episodeList.length} / ${allEpisodes.length}`;
+  subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${allEpisodes.length} `;
+}
+
+function setup() {
+  createAllSeriesIndexArray(allShows);
+  populateEpisodeButton(allEpisodes);
+
+  cl(allEpisodes.length > episodeLimitVariable);
+
+  if (allEpisodes.length > episodeLimitVariable) {
+    cl("working")
+    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
+    createLoadMoreButton();
+  } else {
+    displayEpisodes(allEpisodesIndexArray,0,allEpisodesIndexArray.length);
+  }
+}
+// window.onload = setup;
 
 
+
+
+
+function resetEpisodesHTML() {
+  flexOuterContainer.innerHTML = "";
+}
   
-
 /*------------ Code for the loadMore Button (both from searchInput and fullEpisodeArray) --------------------*/
 
 function createLoadMoreButton(source){
@@ -96,52 +165,10 @@ function updateLimitValues () {
 }
 
 
-/*-------- Setup function for the initial page load and the 73/73 button functionality --------------------*/
-
-function makePageForEpisodes(episodeList) {
-  const episodesNum = document.getElementById("HeaderEpisodesNum");
-  const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
-  episodesNum.textContent = `${episodeList.length} / ${allEpisodes.length}`;
-  subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${allEpisodes.length} `;
-}
-
-function setup() {
-  makePageForEpisodes(allEpisodes);
-
-  cl(allEpisodes.length > episodeLimitVariable);
-
-  if (allEpisodes.length > episodeLimitVariable) {
-    cl("working")
-    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-    createLoadMoreButton();
-  } else {
-    displayEpisodes(allEpisodesIndexArray,0,allEpisodesIndexArray.length);
-  }
-}
-
-window.onload = setup;
-
-
-function resetEpisodesHTML() {
-  flexOuterContainer.innerHTML = "";
-}
-
-
-
-// This function works by taking a variable which is the index from the for loop 
-// below which sets out the new innerHTML. It uses this variable to pull the corresponding
-// button ID. It then adds the "show" class which is then targeted in the CSS
-function popUpFunctionIdSpecific(variable) {
-  const popup = document.getElementById(`myPopupIndex${variable}`);
-  popup.classList.toggle("show");
-}
-
-
-
-
 
 
 /*------------ Main displayEpisodes function that creates the episode containers --------------------*/
+
 
 
 // I need to pass displayEpisodes an array of objects [{},{}]
@@ -208,7 +235,7 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
             <span id="myPopupIndex${index}" class="popupButtonText" id="myPopup">
               <a class="tvMazeLink" href=${currentEpisode._links.self.href} target="_blank">TV Maze Episode Link</a>
               <br>
-              <a class="imbdLink" href=${oneShow.officialSite} target="_blank">Official Site Link</a>
+              <a class="imbdLink" href=${allShows.officialSite} target="_blank">Official Site Link</a>
             </span>
           </button>
 
@@ -216,3 +243,102 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
     `;
   }
 }
+
+// This function works by taking a variable which is the index from the for loop 
+// below which sets out the new innerHTML. It uses this variable to pull the corresponding
+// button ID. It then adds the "show" class which is then targeted in the CSS
+function popUpFunctionIdSpecific(variable) {
+  const popup = document.getElementById(`myPopupIndex${variable}`);
+  popup.classList.toggle("show");
+}
+
+
+
+/*--------------------------- Image opacity based on scroll ------------------------------------------------ */
+
+
+function getPosition(element) {
+    var yPosition = 0;
+    
+    while(element) {
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    //cl("current Height : " + yPosition)
+    return yPosition ;
+}
+
+
+const $flexEpisodeContainer = document.querySelectorAll(".flexEpisodeContainer");
+//cl($flexEpisodeContainer)
+const headerImage = document.getElementById("headerImageID");
+
+//var $ul_li_invisible = document.querySelectorAll("#cracked_li_invisible");
+//var $sidePanelHeading = document.getElementById("side_panel_heading");
+
+
+
+document.addEventListener('scroll', function(e) {
+    var scrollTop = window.scrollY;
+    //cl("scrollTop : " + scrollTop )
+    let screenHeight = window.innerHeight;
+    //cl(screenHeight)    
+
+    let imageOpacity = screenHeight / scrollTop ; 
+    let finalOpacity =  ((imageOpacity + 2)/10);
+    //cl(finalOpacity)
+    headerImage.style.opacity = finalOpacity;
+
+    if (finalOpacity < 0.225) {
+        headerImage.style.opacity = 0;
+    } else if (finalOpacity < 0.25) {
+        headerImage.style.opacity = finalOpacity / 2;
+    }
+    
+    
+});
+
+
+
+/*------------------------------------- h1 element - crack on scroll --------------------------------------- */
+
+
+var $seriesHeading = document.getElementById("cracked_heading_throwaway");
+
+document.addEventListener('scroll', function(e) {
+    // getPosition returns a fixed numerical result. Use this with scrollTop to work out how far
+    // from the top the element will be...
+    var scrollTop = window.scrollY;
+    var $episodeContainer = document.querySelectorAll(".flexEpisodeContainer");
+
+    var episodeHeight = getPosition($episodeContainer[0]);
+    var seriesTextHeight = getPosition($seriesHeading);
+    var triggerHeight = (episodeHeight - (seriesTextHeight * 2.5));
+    var sidePanel_opacity =  (episodeHeight - scrollTop) / 400;
+
+    // cl(scrollTop + "  : scrollTop");
+    // cl(episodeHeight + "  : episodeHeight")
+    // cl(seriesTextHeight);
+
+    if (scrollTop > triggerHeight){
+        $seriesHeading.className = 'seriesTextCracked';
+        //$('#side_panel_heading').css({opacity:sidePanel_opacity});  
+
+    } else if ((scrollTop < triggerHeight) && ($seriesHeading.classList.contains("seriesTextCracked"))){
+        $seriesHeading.classList.remove("seriesTextCracked");
+        $seriesHeading.classList.add("seriesTextUncracked");
+        //  $('.cracked_li').eq([i]).css({opacity:'1'});  
+    }  
+});
+
+
+
+
+
+
+
+
+
+
+
+

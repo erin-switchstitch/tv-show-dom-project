@@ -28,11 +28,17 @@
       <a class="box D" id="forthBox"><span id="HeaderEpisodesNum"></span></a>
     </header>
     <div class="subHeader">
-      <div class="subHeaderLeft"></div>
-      <select class="selectBox Hidden" id="selectBoxID">
-        <option value="" disabled selected>Select your option</option>
-        <!-- <option>This is where the Series/Episode list will be added</option> -->
-      </select>
+      <div class="subHeaderLeft">
+        <select class="selectBox Hidden" id="selectBoxID">
+          <option value="" disabled selected>Select an episode</option>
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
+        <select class="selectBox Hidden" id="seriesSelectBoxID">
+          <option value="" disabled selected>Select a series</option>
+            <!-- <option>This is where the Series/Episode list will be added</option> -->
+          </select>
+      </div>
+
       <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()"
         placeholder="Search for episodes..">
       <a class="episodeNumBox Hidden" id="episodeNumBoxID">Currently showing<span id="subHeaderEpisodesNum"></span>
@@ -77,9 +83,7 @@
   <script src="shows.js"></script>
 
   <!-- Loads YOUR javascript code -->
-  <script src="script.js"></script>
-  <script src="imageScrollScript.js"></script>
-  <script src="crackedScript.js"></script>
+  <script src="setupScript.js"></script>
   <script src="headerScript.js"></script>
   <script src="searchScript.js"></script>
 </body>
