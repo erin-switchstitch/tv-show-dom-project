@@ -28,47 +28,62 @@ let searchIndexArray =[];
 
 cl(allShows)
 
-fetch('https://api.tvmaze.com/shows/82/episodes')
+let selectedSeriesIndex = 82;
+
+function fetchEpisodesBySeries(seriesID){
+  fetch(`https://api.tvmaze.com/shows/${seriesID}/episodes`)
   .then(response => response.json())
   .then((data) => {
+    allSeriesIndexArray = [];
+    resetLimitValues();
+    removeLoadMoreButton();
+    createAllSeriesIndexArray(allShows);
+    // console.log(allEpisodes)
     allEpisodes = data; 
     console.log(allEpisodes)
     createAllEpisodesIndexArray(allEpisodes);
-    cl(allEpisodesIndexArray);
+    cl(allSeriesIndexArray);
     setup()
   });
+}
+fetchEpisodesBySeries(selectedSeriesIndex);
+
 
 /*------------ Code creates an array of indexes for the allEpisodes function --------------------
   ------------   This array is then passed to main displayEpisodes function  --------------------*/
 
 
 function createAllSeriesIndexArray(arrayToCovert){
-for (let index = 0; index < arrayToCovert.length; index++) {
-    // This creates an array with all the index positions of the full episode list
-    allSeriesIndexArray.push(index);
-    
-    // Below populates the select list for the epsiode header button
-    let currentSeries = arrayToCovert[index];
-    let formatSeriesName = currentSeries.name;
-    // cl(formatSeriesName);
-    
-    // if (formatEpisodeNum < 10){
-    //   formatEpisodeNum = `0${formatEpisodeNum}`;
-    // }
-    // if (formatSeasonNum < 10){
-    //   formatSeasonNum = `0${formatSeasonNum}`;
-    // }
-    seriesSelectBox.innerHTML += `
-          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${0}</span>E<span
-              class="episodeNum">${0}</span> - ${formatSeriesName}</h3></option>
-    `
-  }
+cl(arrayToCovert);
+  for (let index = 0; index < arrayToCovert.length; index++) {
+      // This creates an array with all the index positions of the full episode list
+      allSeriesIndexArray.push(arrayToCovert[index].id);
+      
+      // Below populates the select list for the epsiode header button
+      let currentSeries = arrayToCovert[index];
+      //cl(currentSeries)
+      let formatSeriesName = currentSeries.name;
+      // cl(formatSeriesName);
+      
+      // if (formatEpisodeNum < 10){
+      //   formatEpisodeNum = `0${formatEpisodeNum}`;
+      // }
+      // if (formatSeasonNum < 10){
+      //   formatSeasonNum = `0${formatSeasonNum}`;
+      // }
+      seriesSelectBox.innerHTML += `
+            <option value=${index}><h3 class="episodeNumberElement"><span class="seasonNum">${arrayToCovert[index].id}</span><span
+                class="episodeNum"></span> - ${formatSeriesName}</h3></option>
+      `
+    }
 }
 
-
-
+//allEpisodes[allEpisodesIndexArray}
 
 function createAllEpisodesIndexArray(arrayToCovert){
+
+  selectBox.innerHTML = "";
+
   for (let index = 0; index < arrayToCovert.length; index++) {  
     // This creates an array with all the index positions of the full episode list
     allEpisodesIndexArray.push(index);
@@ -101,17 +116,17 @@ function populateEpisodeButton(episodeList) {
 }
 
 function setup() {
-  createAllSeriesIndexArray(allShows);
+  createAllEpisodesIndexArray(allEpisodes);
   populateEpisodeButton(allEpisodes);
 
-  cl(allEpisodes.length > episodeLimitVariable);
+  cl(allEpisodes);
 
   if (allEpisodes.length > episodeLimitVariable) {
     cl("working")
     displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
     createLoadMoreButton();
   } else {
-    displayEpisodes(allEpisodesIndexArray,0,allEpisodesIndexArray.length);
+    displayEpisodes(allEpisodesIndexArray,0,allEpisodes.length);
   }
 }
 // window.onload = setup;
@@ -130,7 +145,7 @@ function createLoadMoreButton(source){
   if (source === "loadFromSearch") {
     loadMoreID.innerHTML = `
         <div class="loadMoreContainer">
-          <button class="loadMoreButton" onclick="loadMoreFunction(searchIndexArray)">Load More Episodes</button>
+          <button class="loadMoreButton" onclick="loadMoreFunction(allEpisodes)">Load More Episodes</button>
         </div> 
       `;
   } else {
@@ -142,17 +157,30 @@ function createLoadMoreButton(source){
   }
 }
 
+function removeLoadMoreButton (){
+  cl("before remove : " + loadMoreID.innerHTML)
+  loadMoreID.innerHTML = ``;
+  cl("after remove : " + loadMoreID.innerHTML)
+}
+
 
 function loadMoreFunction(array){
-  if (initialLimitUpper === array.length){
+  cl("LOOK HERE ....")
+  cl(allEpisodes);
+  cl(allEpisodesIndexArray)
+  cl(initialLimitUpper);
+  if ((initialLimitUpper === array.length) || (initialLimitUpper >array.length)) {
     window.alert("No more episodes to load");
 
   } else if (initialLimitUpper > (array.length-episodeLimitVariable)){
+    cl("Less than 20 left")
     initialLimitLower += episodeLimitVariable; 
     initialLimitUpper = array.length;
     displayEpisodes(array,initialLimitLower,initialLimitUpper);
+    updateLimitValues();
 
   } else {
+      cl("Over 20 left")
       updateLimitValues();
       displayEpisodes(array,initialLimitLower,initialLimitUpper);
   }
@@ -164,6 +192,11 @@ function updateLimitValues () {
   initialLimitUpper += episodeLimitVariable;
 }
 
+function resetLimitValues () {
+  initialLimitLower = 0;
+  initialLimitUpper = episodeLimitVariable;
+}
+
 
 
 
@@ -173,7 +206,7 @@ function updateLimitValues () {
 
 // I need to pass displayEpisodes an array of objects [{},{}]
 function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
-  cl(episodeArray);
+  // cl(episodeArray);
   // This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
   // and inserts the new html for each episode
   for (let index = lowerLimit; index < upperLimit; index++) {

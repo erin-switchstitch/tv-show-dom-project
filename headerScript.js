@@ -86,7 +86,7 @@ for (let i=0; i < targetBoxes.length; i++){
 
 function showSelectBox(index, innerBoxSize){
     cl("innerBoxSize : "+ innerBoxSize)
-    if (index === 2){
+    if (index === 3){
         cl(inputBox.classList);
         // inputBox.style.display = "flex";
         inputBox.classList.remove("Hidden");
@@ -94,18 +94,17 @@ function showSelectBox(index, innerBoxSize){
         inputBox.style.marginLeft = `${(innerBoxSize)}px`;
         inputBox.classList.add("Show");
 
-    } else if (index === 3){
+    } else if (index === 1){
         episodeNumBoxID.classList.remove("Hidden");
         episodeNumBoxID.style.transitionDuration = "500ms";
         episodeNumBoxID.style.marginLeft = `${(innerBoxSize)}px`;
         episodeNumBoxID.classList.add("Show");
-    } else if (index === 1){
+    } else if (index === 2){
         selectBox.classList.remove("Hidden");
         selectBox.style.transitionDuration = "500ms";
         selectBox.style.marginLeft = `${(innerBoxSize)}px`;
         selectBox.classList.add("Show");
-    } else {
-        
+    } else if (index === 0){
         seriesSelectBox.classList.remove("Hidden");
         seriesSelectBox.style.transitionDuration = "500ms";
         seriesSelectBox.style.marginLeft = `${(innerBoxSize)}px`;
@@ -116,25 +115,25 @@ function showSelectBox(index, innerBoxSize){
 
 function hideSelectBox(index, innerBoxSize){
     
-    if (index === 2){
+    if (index === 3){
         cl(inputBox.classList);
         inputBox.classList.remove("Show");
         inputBox.style.transitionDuration = "500ms";
         inputBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
         inputBox.classList.add("Hidden");
 
-    } else if (index==3){
+    } else if (index==1){
         episodeNumBoxID.classList.remove("Show");
         episodeNumBoxID.style.transitionDuration = "500ms";
         episodeNumBoxID.style.marginLeft = `-${(innerBoxSize*3)}px`;
         episodeNumBoxID.classList.add("Hidden");
 
-    } else if (index === 1){
+    } else if (index === 2){
         selectBox.classList.remove("Show");
         selectBox.style.transitionDuration = "500ms";
         selectBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
         selectBox.classList.add("Hidden");
-    } else {
+    } else if (index === 0){
         seriesSelectBox.classList.remove("Show");
         seriesSelectBox.style.transitionDuration = "500ms";
         seriesSelectBox.style.marginLeft = `-${(innerBoxSize*3)}px`;

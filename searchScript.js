@@ -1,18 +1,24 @@
 /*------------------ Search Logic - select episode/series ---------------------------------------------- */
 
-
+// EPISODES - <option><select>
 document.getElementsByTagName('select')[0].onchange = function() {
   var index = this.selectedIndex;
   console.log(index -1);
   resetEpisodesHTML()
+  fetchEpisodesBySeries(index-1);
   displayEpisodes(allEpisodesIndexArray,index -1,index);
 }
 
+// SERIES - <option><select>
 document.getElementsByTagName('select')[1].onchange = function() {
-  var index = this.selectedIndex;
-  console.log(index -1);
+  var seriesIndex = this.selectedIndex;
+  var seriesIdAtIndex = allSeriesIndexArray[seriesIndex-1]
+  console.log(seriesIndex -1);
+  cl(seriesIdAtIndex);
+  fetchEpisodesBySeries(seriesIdAtIndex)
+//   cl(allEpisodes)
   resetEpisodesHTML()
-  displayEpisodes(allEpisodesIndexArray,index -1,index);
+//   displayEpisodes(allEpisodes,0,seriesIndex);
 }
 
 
@@ -63,6 +69,7 @@ function searchFunction(){
         displayEpisodes(searchIndexArray,0,episodeLimitVariable);
         createLoadMoreButton("loadFromSearch");
     } else {
+        removeLoadMoreButton();
         displayEpisodes(searchIndexArray,0,searchIndexArray.length);
     }
 
