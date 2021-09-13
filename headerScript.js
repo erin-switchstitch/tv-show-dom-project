@@ -199,6 +199,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
     cl(headerTag.offsetWidth);
     let moveLeft = headerTag.offsetWidth / (targetBoxes.length);
     let currentBoxTranslateX = `${moveLeft * index}`;
+    let moveLeftPlusPadding = moveLeft + (moveLeft/2);
    
     // When the first box is clicked the transition duration is set to the fast
     // speed and moves the box down in 0.5s.  
@@ -212,7 +213,14 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
         setTimeout(function(){
             cl("Select Across")
 
-            showSelectBox(index, moveLeft);
+            if (headerTag.offsetWidth > 600){
+                // cl(moveLeft + (moveLeft/2))
+                showSelectBox(index, moveLeftPlusPadding);
+            } else {
+                // cl("under 600px screen width run")
+                showSelectBox(index, moveLeft);
+            }
+
         }, (fasterSpeed));
 
     // When a new box is clicked and is not the first box
@@ -231,7 +239,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
             setTimeout(function(){
                 cl("Select Across")
 
-                showSelectBox(index, moveLeft);
+                showSelectBox(index, moveLeftPlusPadding);
             }, (switchDelay));
 
         }, (fasterSpeed));

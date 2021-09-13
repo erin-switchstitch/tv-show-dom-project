@@ -2,7 +2,8 @@
   display: flex;
   position: fixed;
   width: 100vw;
-  background-color: purple;
+  background-color: #131213;
+  border-bottom: #9615db4f 2px solid;
   height: var( --header-offset);
   justify-content: space-around;
 }

@@ -3,10 +3,19 @@
 // EPISODES - <option><select>
 document.getElementsByTagName('select')[0].onchange = function() {
   var index = this.selectedIndex;
-  console.log(index -1);
-  resetEpisodesHTML()
-  fetchEpisodesBySeries(index-1);
-  displayEpisodes(allEpisodesIndexArray,index -1,index);
+  
+  if(index === 0) {
+      cl(allEpisodesIndexArray)
+      resetEpisodesHTML()
+      setup();
+  } else {
+    console.log(index -1);
+    resetEpisodesHTML()
+    //   fetchEpisodesBySeries(index);
+    displayEpisodes(allEpisodesIndexArray,index -1,index);
+  }
+  
+
 }
 
 // SERIES - <option><select>
@@ -14,11 +23,16 @@ document.getElementsByTagName('select')[1].onchange = function() {
   var seriesIndex = this.selectedIndex;
   var seriesIdAtIndex = allSeriesIndexArray[seriesIndex-1]
   console.log(seriesIndex -1);
-  cl(seriesIdAtIndex);
-  fetchEpisodesBySeries(seriesIdAtIndex)
-//   cl(allEpisodes)
-  resetEpisodesHTML()
-//   displayEpisodes(allEpisodes,0,seriesIndex);
+      // displayEpisodes(allEpisodes,0,seriesIndex);
+
+  if(seriesIndex === 0) {
+      // Here I will need to run the series setup function when it is written ...
+      resetEpisodesHTML()
+      setup();
+  } else {
+    resetEpisodesHTML()
+    fetchEpisodesBySeries(seriesIdAtIndex)
+  }
 }
 
 
