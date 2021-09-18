@@ -1,39 +1,118 @@
-/*------------------ Search Logic - select episode/series ---------------------------------------------- */
+/*------------------ Select Logic - select episode/series ---------------------------------------------- */
 
-// EPISODES - <option><select>
-document.getElementsByTagName('select')[0].onchange = function() {
-  var index = this.selectedIndex;
-  
-  if(index === 0) {
-      cl(allEpisodesIndexArray)
-      resetEpisodesHTML()
-      setup();
-  } else {
-    console.log(index -1);
-    resetEpisodesHTML()
-    //   fetchEpisodesBySeries(index);
-    displayEpisodes(allEpisodesIndexArray,index -1,index);
-  }
-  
+function onSelectReturnThenNewBox(newBoxIndex){
+     sameBoxReturn(targetBoxes[currentMovedIndex], currentMovedIndex, move1speed, move1speed);
+     
+    //  for (let i=0; i < targetBoxes.length; i++){
+        const currentBox = targetBoxes[newBoxIndex];
+        setTimeout(function(){
+            newBoxClicked(currentBox, newBoxIndex, move1speed, move2speed);
+        }, (switchDelay));
+        
+        alreadyMoved = true; 
+        currentMovedIndex = newBoxIndex; 
+    // }
+};
 
-}
 
 // SERIES - <option><select>
-document.getElementsByTagName('select')[1].onchange = function() {
+document.getElementsByTagName('select')[0].onchange = function() {
   var seriesIndex = this.selectedIndex;
+  console.log(seriesIndex);
   var seriesIdAtIndex = allSeriesIndexArray[seriesIndex-1]
-  console.log(seriesIndex -1);
+  cl(seriesIdAtIndex)
+
       // displayEpisodes(allEpisodes,0,seriesIndex);
 
-  if(seriesIndex === 0) {
+  if (seriesIndex === 0) {
       // Here I will need to run the series setup function when it is written ...
       resetEpisodesHTML()
       setup();
   } else {
     resetEpisodesHTML()
+    cl("seriesID : " + seriesIdAtIndex)
+    fetchSeasonsBySeries(seriesIdAtIndex)
     fetchEpisodesBySeries(seriesIdAtIndex)
+    cl("about to run : populateSeasonHeaderSelect")
+    cl(allSeasons)
+
+    onSelectReturnThenNewBox(1);
+
   }
 }
+
+
+// SEASONS - <option><select>
+let seasonLimitArray =[];
+
+document.getElementsByTagName('select')[1].onchange = function() {
+    var seasonIndex = this.value;
+    console.log("seasonIndex : " + seasonIndex);
+    console.log(typeof(seasonIndex));
+    createAllEpisodesIndexArray(allEpisodes)
+    cl(allEpisodesSeasonNumArray)
+
+
+    if(seasonIndex === "0") {
+        // Here I will need to run the series setup function when it is written ...
+        cl("0 index run")
+        resetEpisodesHTML()
+        // populateEpisodeHeaderSelect(allEpisodes, 0, 0, allEpisodes.length)
+        displaySeasons(allSeasons,0, allSeasons.length)
+    } else {
+
+        seasonLimitArray =[];
+        for (let index = 0; index < allEpisodesSeasonNumArray.length; index++) {
+            let currentEpisode = allEpisodesSeasonNumArray[index];
+            //cl(index);
+            //cl(currentEpisode)
+            if (currentEpisode == seasonIndex) {
+                seasonLimitArray.push(index)
+            }
+            //cl(seasonLimitArray);
+        }
+        cl(seasonLimitArray);
+        let episodeBySeasonLowerLimit = seasonLimitArray[0];
+        let episodeBySeasonUpperLimit = seasonLimitArray[seasonLimitArray.length-1];
+        //cl(episodeBySeasonUpperLimit)
+        resetEpisodesHTML()
+        //cl(allEpisodes)
+        displayEpisodes(allEpisodes,episodeBySeasonLowerLimit,episodeBySeasonUpperLimit);
+        populateEpisodeHeaderSelect(allEpisodes,seasonIndex, episodeBySeasonLowerLimit,episodeBySeasonUpperLimit)
+        // fetchSeasonsBySeries(seriesIdAtIndex)
+        onSelectReturnThenNewBox(2);
+    }    
+}
+
+
+// EPISODES - <option><select>
+document.getElementsByTagName('select')[2].onchange = function() {
+  var index = this.selectedIndex;
+  
+  if(index === 0) {
+      cl(allEpisodesIndexArray)
+      cl(this.value);
+      resetEpisodesHTML()
+
+        if (this.value > 0){
+            let episodeBySeasonLowerLimit = seasonLimitArray[0];
+            let episodeBySeasonUpperLimit = seasonLimitArray[seasonLimitArray.length-1];
+            displayEpisodes(allEpisodes,episodeBySeasonLowerLimit,episodeBySeasonUpperLimit)
+        } else {
+            displayEpisodes(allEpisodes,0,allEpisodes.length + 1)
+        }
+
+  } else {
+    console.log(index -1);
+    resetEpisodesHTML()
+    //   fetchEpisodesBySeries(index);
+    displayEpisodes(allEpisodes,index -1,index);
+  }
+  
+
+}
+
+
 
 
 

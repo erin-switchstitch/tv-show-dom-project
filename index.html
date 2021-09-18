@@ -23,9 +23,9 @@
   <div class="headerContainer">
     <header>
       <a class="box A" id="firstBox">SERIES</a>
-      <a class="box B" id="secondBox">To SEASON<span id="HeaderEpisodesNum"></span></a></a>
-      <a class="box C" id="thirdBox">To EPISODES</a>
-      <a class="box D" id="forthBox">SEARCH</a>
+      <a class="box B" id="secondBox">SEASON</a>
+      <a class="box C" id="thirdBox">EPISODES</a>
+      <a class="box D" id="forthBox"><span id="searchHeaderText">SEARCH</span> <span id="searchHeaderOverlay"></span></a>
 
             <!-- <a class="box A" id="firstBox">SERIES</a>
             <a class="box B" id="secondBox">EPISODES</a>
@@ -34,14 +34,20 @@
     </header>
     <div class="subHeader">
       <div class="subHeaderLeft">
+
+    
+        <select class="selectBox Hidden" id="seriesSelectBoxID">
+          <option value="" selected>Show All Series</option>
+            <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
+        <select class="selectBox Hidden" id="seasonsSelectBoxID">
+          <option value="" selected>Show All Seasons</option>
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
         <select class="selectBox Hidden" id="selectBoxID">
           <option value="" selected>Show All Episodes</option>
           <!-- <option>This is where the Series/Episode list will be added</option> -->
         </select>
-        <select class="selectBox Hidden" id="seriesSelectBoxID">
-          <option value="" selected>Show All Series</option>
-            <!-- <option>This is where the Series/Episode list will be added</option> -->
-          </select>
       </div>
 
       <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()"

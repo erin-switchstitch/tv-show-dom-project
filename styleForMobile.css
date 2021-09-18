@@ -94,6 +94,20 @@ header a:hover {
 
 }
 
+#searchHeaderOverlay{
+  display : none;
+}
+
+#searchHeaderText {
+  display: flex;
+}
+
+
+#forthBox:hover + #searchHeaderOverlay {
+  display: flex;
+}
+
+
 
 
 .subHeader {

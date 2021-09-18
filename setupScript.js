@@ -1,12 +1,11 @@
 /*------------------------------------- Global Variables --------------------------------------- */
 
 const cl = console.log;
-let allEpisodes;
-const allShows = getAllShows();
 const flexOuterContainer = document.querySelector(".flexOuterContainer");
 const loadMoreID = document.getElementById("loadMoreID");
-const selectBox = document.getElementById("selectBoxID");
+const episodesSelectBox = document.getElementById("selectBoxID");
 const seriesSelectBox = document.getElementById("seriesSelectBoxID");
+const seasonsSelectBox = document.getElementById("seasonsSelectBoxID")
 const inputBox = document.getElementById("inputBoxID");
 const targetBoxes = document.getElementsByClassName("box");
 const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
@@ -20,44 +19,124 @@ const episodeLimitVariable = 20;
 let initialLimitLower = 0;
 let initialLimitUpper = episodeLimitVariable;
 let allEpisodesIndexArray =[];
+let allEpisodesSeasonNumArray =[];
 let allSeriesIndexArray = [];
 let searchIndexArray =[];
 
 
-/*--------------------------------------- API code --------------------------------------- */
 
+/*--------------------------- Step 0 : Page Load (setup function) -------------------------------------------*/
 
-let selectedSeriesIndex = 82;
+const getAllSeries = getAllShows();
+cl(getAllSeries)
+let allSeries = getAllSeries;
+let allEpisodes;
 
-// I will also need to create a fetchEpisodeBySeason function !!!
-// actually may not have to. It may be more efficient to filter 
-// the episodes raw data by season then display that 
-// seriesDisplay has specific data, so does seasonsDisplay and episodesDisplay- all 
-// of them need to access specific data from fetch requests / from shows.js function
-function fetchEpisodesBySeries(seriesID){
-  fetch(`https://api.tvmaze.com/shows/${seriesID}/episodes`)
-  .then(response => response.json())
-  .then((data) => {
-    cl("fetchEpisodesBySeries function run")
-    allSeriesIndexArray = [];
-    resetLimitValues();
-    removeLoadMoreButton();
-    createAllSeriesIDArray(allShows);
-    // console.log(allEpisodes)
-    allEpisodes = data; 
-    // console.log(allEpisodes)
-    createAllEpisodesIndexArray(allEpisodes);
-    // cl(allSeriesIndexArray);
-    setup()
-  });
+function setup() {
+  // pullAllSeriesFromFunction(allSeries);
+  createAllSeriesIDArray(allSeries); /* <---- need to enter parameter */
+
+  if (allSeries.length > episodeLimitVariable) {
+    displaySeries (allSeries, initialLimitLower, initialLimitUpper) 
+    createLoadMoreButton("allSeries");
+  } else {
+    displaySeries (allSeries, 0, seriesArray.length)
+  }
 }
-fetchEpisodesBySeries(selectedSeriesIndex);
+
+window.onload = setup;
+
+
+
+/*--------------------------------- Webpage functionality / logic code -----------------------------------*/
+
+
+function createLoadMoreButton(sourceName){
+    if (sourceName === "allSeries") {
+        loadMoreID.innerHTML = `
+        <div class="loadMoreContainer">
+          <button class="loadMoreButton" onclick="loadMoreFunction(allSeries,displaySeries)">Load More Episodes</button>
+        </div>`;
+    }
+}
+
+function removeLoadMoreButton (){
+  // cl("before remove : " + loadMoreID.innerHTML)
+  loadMoreID.innerHTML = ``;
+  // cl("after remove : " + loadMoreID.innerHTML)
+}
+
+
+function loadMoreFunction(array, displayFunction){
+  cl("LOOK HERE ....")
+  cl(array)
+  cl(initialLimitUpper);
+
+  if ((initialLimitUpper === array.length) || (initialLimitUpper >array.length)) {
+    window.alert("No more episodes to load");
+
+  } else if (initialLimitUpper > (array.length-episodeLimitVariable)){
+    cl("Less than 20 left")
+    initialLimitLower += episodeLimitVariable; 
+    initialLimitUpper = array.length;
+    displayFunction(array,initialLimitLower,initialLimitUpper);
+    updateLimitValues();
+
+  } else {
+    cl("Over 20 left")
+    updateLimitValues();
+    displayFunction(array,initialLimitLower,initialLimitUpper);
+  }
+}
+
+
+function updateLimitValues () {
+  initialLimitLower += episodeLimitVariable;
+  initialLimitUpper += episodeLimitVariable;
+}
+
+function resetLimitValues () {
+  initialLimitLower = 0;
+  initialLimitUpper = episodeLimitVariable;
+}
+
+
+
+function popUpFunctionIdSpecific(variable) {
+// This function works by taking a variable which is the index from the for loop 
+// below which sets out the new innerHTML. It uses this variable to pull the corresponding
+// button ID. It then adds the "show" class which is then targeted in the CSS
+  const popup = document.getElementById(`myPopupIndex${variable}`);
+  popup.classList.toggle("show");
+}
+
+function resetEpisodesHTML() {
+  flexOuterContainer.innerHTML = "";
+}
 
 
 
 
-/*------------ Code creates an array of indexes for the allEpisodes function --------------------
-  ------------   This array is then passed to main displayEpisodes function  --------------------*/
+/*---------------------------- Step 1 : Create and push SERIES data --------------------------------------- */
+
+var throwawaySeriesID = 82;
+var allSeasons = [];
+
+function pullAllSeriesFromFunction(rawData){
+  cl(rawData);
+  resetLimitValues();
+  removeLoadMoreButton();
+  allSeasons = rawData; 
+  // createAllSeriesIndexArray(allShows);
+  // createAllEpisodesIndexArray(allEpisodes);
+  // console.log(allEpisodes)
+  cl(allSeasons)
+  cl(allSeriesIndexArray);
+  resetEpisodesHTML();
+  displaySeasons(allSeasons,0,allSeasons.length)
+  // setup()
+}
+// fetchSeasonsBySeries(throwawaySeriesID);
 
 
 function createAllSeriesIDArray(arrayToCovert){
@@ -76,159 +155,33 @@ function createAllSeriesIDArray(arrayToCovert){
     }
 }
 
-//allEpisodes[allEpisodesIndexArray}
 
-function createAllEpisodesIndexArray(arrayToCovert){
-  allEpisodesIndexArray =[];
-  selectBox.innerHTML = `<option value="" selected>Show All Episodes</option>`;
-
-  for (let index = 0; index < arrayToCovert.length; index++) {  
-    // This creates an array with all the index positions of the full episode list
-    allEpisodesIndexArray.push(index);
-    
-    // Below populates the select list for the episode header button
-    let currentEpisode = arrayToCovert[index];
-    let formatEpisodeNum = currentEpisode.number;
-    let formatSeasonNum = currentEpisode.season;
-    
-    if (formatEpisodeNum < 10){
-      formatEpisodeNum = `0${formatEpisodeNum}`;
-    }
-    if (formatSeasonNum < 10){
-      formatSeasonNum = `0${formatSeasonNum}`;
-    }
-    selectBox.innerHTML += `
-          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
-              class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
-    `
-  }
-}
-
-/*-------- Setup function for the initial page load and the 73/73 button functionality --------------------*/
-
-function populateEpisodeButton(episodeList) {
-  const episodesNum = document.getElementById("HeaderEpisodesNum");
-  const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
-  episodesNum.textContent = `${episodeList.length} / ${allEpisodes.length}`;
-  subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${allEpisodes.length} `;
-}
-
-function setup() {
-  createAllEpisodesIndexArray(allEpisodes);
-  populateEpisodeButton(allEpisodes);
-
-  // cl(allEpisodes);
-
-  if (allEpisodes.length > episodeLimitVariable) {
-    // cl("working")
-    displayEpisodes(allEpisodesIndexArray,initialLimitLower,initialLimitUpper);
-    createLoadMoreButton();
-  } else {
-    displayEpisodes(allEpisodesIndexArray,0,allEpisodes.length);
-  }
-}
-// window.onload = setup;
-
-
-
-
-
-function resetEpisodesHTML() {
-  flexOuterContainer.innerHTML = "";
-}
-  
-/*------------ Code for the loadMore Button (both from searchInput and fullEpisodeArray) --------------------*/
-
-function createLoadMoreButton(source){
-  if (source === "loadFromSearch") {
-    loadMoreID.innerHTML = `
-        <div class="loadMoreContainer">
-          <button class="loadMoreButton" onclick="loadMoreFunction(allEpisodes)">Load More Episodes</button>
-        </div> 
-      `;
-  } else {
-      loadMoreID.innerHTML = `
-        <div class="loadMoreContainer">
-          <button class="loadMoreButton" onclick="loadMoreFunction(allEpisodesIndexArray)">Load More Episodes</button>
-        </div> 
-      `;
-  }
-}
-
-function removeLoadMoreButton (){
-  // cl("before remove : " + loadMoreID.innerHTML)
-  loadMoreID.innerHTML = ``;
-  // cl("after remove : " + loadMoreID.innerHTML)
-}
-
-
-function loadMoreFunction(array){
-  cl("LOOK HERE ....")
-  cl(allEpisodes);
-  cl(allEpisodesIndexArray)
-  cl(initialLimitUpper);
-  if ((initialLimitUpper === array.length) || (initialLimitUpper >array.length)) {
-    window.alert("No more episodes to load");
-
-  } else if (initialLimitUpper > (array.length-episodeLimitVariable)){
-    cl("Less than 20 left")
-    initialLimitLower += episodeLimitVariable; 
-    initialLimitUpper = array.length;
-    displayEpisodes(array,initialLimitLower,initialLimitUpper);
-    updateLimitValues();
-
-  } else {
-      cl("Over 20 left")
-      updateLimitValues();
-      displayEpisodes(array,initialLimitLower,initialLimitUpper);
-  }
-}
-
-
-function updateLimitValues () {
-  initialLimitLower += episodeLimitVariable;
-  initialLimitUpper += episodeLimitVariable;
-}
-
-function resetLimitValues () {
-  initialLimitLower = 0;
-  initialLimitUpper = episodeLimitVariable;
-}
-
-
-
-
-/*------------ Main displayEpisodes function that creates the episode containers --------------------*/
-
-
-
-// I need to pass displayEpisodes an array of objects [{},{}]
-function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
-  // cl(episodeArray);
-  // This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
-  // and inserts the new html for each episode
+// I need to pass displaySeasons an array of objects [{},{}]
+function displaySeries (seriesArray, lowerLimit, upperLimit) {
+  cl("displaySeries run ...")
+  cl(seriesArray)
   for (let index = lowerLimit; index < upperLimit; index++) {
-    //cl(allEpisodes[72])
-    //cl(episodeArray[index])
-    let currentEpisodeIndex = episodeArray[index] ; 
-    const currentEpisode = allEpisodes[currentEpisodeIndex];
-    //cl(currentEpisode)
-    // This code converts data to display season and date info e.g. S1E1 --> S01E01  
-    let formatEpisodeNum = currentEpisode.number;
-    let formatSeasonNum = currentEpisode.season;
+
+    let currentSeries = seriesArray[index]; 
+
+    let seriesName = currentSeries.name;
+    let seriesLanguage = currentSeries.language;
+    let seriesImage = currentSeries.image.medium;
+    let seriesSummary = currentSeries.summary /*<-- not all episodes have summaries*/
+    let seriesStatus = currentSeries.status;
+    let startDate = currentSeries.premiered;
+    let endDate = currentSeries.endDate;
+    let tvMazeLink = currentSeries.url;
+
+    let multipleSeries;
+    if (seriesArray.length > 1){
+      multipleSeries = `s`;
+    }
     
-    if (formatEpisodeNum < 10){
-      formatEpisodeNum = `0${formatEpisodeNum}`;
-      //cl(formatEpisodeNum)
-    }
-    if (formatSeasonNum < 10){
-      formatSeasonNum = `0${formatSeasonNum}`;
-      //cl(formatEpisodeNum)
-    }
 
     // This code below including the while loops, removes all <p></p> and <br> tags. Some of the summaries have these 
     // tags in the middle of the summary. This solution should remove all of the tags whether at start/middle/end
-    var summaryStr = currentEpisode.summary;
+    var summaryStr = seriesSummary;
 
     while (summaryStr.indexOf("<p>") >= 0) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<p>"))) + summaryStr.slice((summaryStr.indexOf("<p>"))+3, summaryStr.length); 
@@ -241,21 +194,20 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<br>"))) + summaryStr.slice((summaryStr.indexOf("<br>"))+4, summaryStr.length); 
     }
 
-    let passEpisodeTitle = currentEpisode.name;
+
     flexOuterContainer.innerHTML += `
     <div class="flexEpisodeContainer">
-          <h2 class="episodeTitle">${passEpisodeTitle.toUpperCase()}</h2>
-          <h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
-              class="episodeNum">${formatEpisodeNum}</span></h3>
+          <h2 class="episodeTitle">${seriesName}</h2>
+          <h3 class="episodeNumberElement"><span class="seasonNum">Status : </span><span
+              class="episodeNum">${seriesStatus}</span></h3>
 
           <div class="episodeImageContainer">
-            <img class="episodeImage" src=${currentEpisode.image.medium}
-              alt="Season ${currentEpisode.season}, Episode ${currentEpisode.number} Image">
+            <img class="episodeImage" src=${seriesImage}
+              alt="${seriesName} Banner Image">
             <div class="imageOverlayTextContainer">
               <div class="imageOverlayText">
-                <h4>Air Date : <span>${currentEpisode.airdate}</span></h4>
-                <h4>Air Time : <span>${currentEpisode.airtime}</span></h4>
-                <h4>Runtime : <span>${currentEpisode.runtime}</span> mins</h4>
+                <h4>Start Date : <span>${startDate}</span></h4>
+                <h4>End Date : <span>${endDate}</span></h4>
               </div>
             </div>
           </div>
@@ -264,9 +216,8 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
 
           <button class="popupButton" onclick="popUpFunctionIdSpecific(${index})">See More Info
             <span id="myPopupIndex${index}" class="popupButtonText" id="myPopup">
-              <a class="tvMazeLink" href=${currentEpisode._links.self.href} target="_blank">TV Maze Episode Link</a>
+              <a class="tvMazeLink" href=${tvMazeLink} target="_blank">TV Maze Episode Link</a>
               <br>
-              <a class="imbdLink" href=${allShows.officialSite} target="_blank">Official Site Link</a>
             </span>
           </button>
 
@@ -276,14 +227,20 @@ function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
 }
 
 
+
+
+
+/*---------------------------- Step 2 : Create and push SEASON data --------------------------------------- */
+
+
 var throwawaySeriesID = 82;
 var allSeasons = [];
 
 function fetchSeasonsBySeries(seriesID){
-  fetch(`https://api.tvmaze.com/shows/82/seasons`)
+  fetch(`https://api.tvmaze.com/shows/${seriesID}/seasons`)
   .then(response => response.json())
   .then((data) => {
-    
+    allSeasons = [];
     resetLimitValues();
     removeLoadMoreButton();
     allSeasons = data; 
@@ -291,14 +248,30 @@ function fetchSeasonsBySeries(seriesID){
     // createAllEpisodesIndexArray(allEpisodes);
     // console.log(allEpisodes)
     cl(allSeasons)
-    cl(allSeriesIndexArray);
 
     resetEpisodesHTML();
     displaySeasons(allSeasons,0,allSeasons.length)
-    setup()
+        populateSeasonHeaderSelect(allSeasons)
   });
 }
-fetchSeasonsBySeries(throwawaySeriesID);
+
+
+function populateSeasonHeaderSelect(arrayToCovert){
+  cl("populateSeasonHeaderSelect run....")
+  cl(arrayToCovert)
+
+  seasonsSelectBox.innerHTML =`<option value="0" selected>Show All Seasons</option>`;
+
+  for (let index = 0; index < arrayToCovert.length; index++) {
+      let currentSeason = arrayToCovert[index];
+      cl(currentSeason)
+
+      seasonsSelectBox.innerHTML += `
+            <option value=${currentSeason.number}><h3 class="episodeNumberElement"><span class="seasonNum"></span><span
+                class="episodeNum"></span>Season ${currentSeason.number}</h3></option>
+      `
+    }
+}
 
 
 // I need to pass displaySeasons an array of objects [{},{}]
@@ -313,7 +286,6 @@ function displaySeasons (seasonArray, lowerLimit, upperLimit) {
     cl(currentSeason)
     let seasonNum = currentSeason.number;
     let numOfEpisodes = currentSeason.episodeOrder;
-    let imageLink = currentSeason.image.medium;
     let summary = currentSeason.summary /*<-- not all episodes have summaries*/
     let startDate = currentSeason.premiereDate;
     let endDate = currentSeason.endDate;
@@ -323,6 +295,11 @@ function displaySeasons (seasonArray, lowerLimit, upperLimit) {
     if (seasonArray.length > 1){
       multipleEpisodes = `s`;
     }
+    let imageLink = "";
+    if (currentSeason.image!= null){
+      imageLink = currentSeason.image.medium;
+    }
+    cl(currentSeason.image)
     
 
     // This code below including the while loops, removes all <p></p> and <br> tags. Some of the summaries have these 
@@ -378,65 +355,148 @@ function displaySeasons (seasonArray, lowerLimit, upperLimit) {
   }
 }
 
-var throwawaySeriesID = 82;
-var allSeasons = [];
 
 
 
 
 
+/*---------------------------- Step 3a : Create EPISODE data --------------------------------------- */
 
 
 
+let selectedSeriesIndex = 82;
 
-
-function pullSeries(seriesID){
-  fetch(`https://api.tvmaze.com/shows/82/seasons`)
+function fetchEpisodesBySeries(seriesID){
+  fetch(`https://api.tvmaze.com/shows/${seriesID}/episodes`)
   .then(response => response.json())
   .then((data) => {
-    
-    resetLimitValues();
-    removeLoadMoreButton();
-    allSeasons = data; 
-    // createAllSeriesIndexArray(allShows);
-    // createAllEpisodesIndexArray(allEpisodes);
-    // console.log(allEpisodes)
-    cl(allSeasons)
-    cl(allSeriesIndexArray);
-
-    resetEpisodesHTML();
-    displaySeasons(allSeasons,0,allSeasons.length)
-    setup()
+    cl("fetchEpisodesBySeries function run")
+    // allSeriesIndexArray = [];
+    allEpisodes = data;
+    createAllEpisodesIndexArray(allEpisodes);
+    cl(allEpisodes)
   });
 }
-// fetchSeasonsBySeries(throwawaySeriesID);
 
 
-// I need to pass displaySeasons an array of objects [{},{}]
-function displaySeries (seriesArray, lowerLimit, upperLimit) {
 
-  for (let index = lowerLimit; index < upperLimit; index++) {
 
-    let currentSeriesIndex = seriesArray[index] ; 
-    const currentSeries = allSeries[currentSeriesIndex];
+//allEpisodes[allEpisodesIndexArray}]
 
-    let seriesNum = currentSeries.number;
-    let numOfSeries = currentSeries.episodeOrder;
-    let seriesLink = currentSeries.image.medium;
-    let summary = currentSeries.summary /*<-- not all episodes have summaries*/
-    let startDate = currentSeries.premiereDate;
-    let endDate = currentSeries.endDate;
-    let tvMazeLink = currentSeries.url;
+function createAllEpisodesIndexArray(arrayToCovert){
+  allEpisodesIndexArray =[];
+  allEpisodesSeasonNumArray=[];
+  episodesSelectBox.innerHTML = `<option value="" selected>Show All Episodes</option>`;
 
-    let multipleSeries;
-    if (seasonArray.length > 1){
-      multipleSeries = `s`;
-    }
+  for (let index = 0; index < arrayToCovert.length; index++) {  
+    // This creates an array with all the index positions of the full episode list
+    allEpisodesIndexArray.push(index);
+    allEpisodesSeasonNumArray.push(arrayToCovert[index].season)
     
+    // Below populates the select list for the episode header button
+    let currentEpisode = arrayToCovert[index];
+    let formatEpisodeNum = currentEpisode.number;
+    let formatSeasonNum = currentEpisode.season;
+    
+    if (formatEpisodeNum < 10){
+      formatEpisodeNum = `0${formatEpisodeNum}`;
+    }
+    if (formatSeasonNum < 10){
+      formatSeasonNum = `0${formatSeasonNum}`;
+    }
+    episodesSelectBox.innerHTML += `
+          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+              class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
+    `
+  }
+}
+
+function populateEpisodeHeaderSelect(episodeList, seasonNum, lowerLimit, upperLimit) {
+  cl(episodeList)
+  cl(lowerLimit)
+  cl(upperLimit)
+  
+  const episodesNum = document.getElementById("searchHeaderOverlay");
+  episodesNum.textContent = `${episodeList.length} / ${episodeList.length}`;
+
+  if (seasonNum > 0) {
+    episodesSelectBox.innerHTML = `<option value="${seasonNum}" selected>Show All Episodes For Season ${seasonNum}</option>`;
+  } else if (seasonNum === 0) {
+    episodesSelectBox.innerHTML = `<option value="0" selected>Show All Episodes${seasonNum}</option>`;
+  }
+  for (let index = lowerLimit; index < upperLimit; index++) {  
+    // // This creates an array with all the index positions of the full episode list
+    // allEpisodesIndexArray.push(index);
+    // allEpisodesSeasonNumArray.push(arrayToCovert[index].season)
+    
+    // Below populates the select list for the episode header button
+    let currentEpisode = episodeList[index];
+    let formatEpisodeNum = currentEpisode.number;
+    let formatSeasonNum = currentEpisode.season;
+    
+    if (formatEpisodeNum < 10){
+      formatEpisodeNum = `0${formatEpisodeNum}`;
+    }
+    if (formatSeasonNum < 10){
+      formatSeasonNum = `0${formatSeasonNum}`;
+    }
+    episodesSelectBox.innerHTML += `
+          <option value=${index}><h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+              class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
+    `
+  }
+  // const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
+  // subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${episodeList.length} `;
+}
+
+
+function populateSearchButtonOverlay(episodeList) {
+  const episodesNum = document.getElementById("searchHeaderOverlay");
+  episodesNum.textContent = `${episodeList.length} / ${episodeList.length}`;
+
+  // const subHeaderEpisodesNum = document.getElementById("subHeaderEpisodesNum");
+  // subHeaderEpisodesNum.textContent = ` ${episodeList.length} of ${episodeList.length} `;
+}
+
+populateSearchButtonOverlay(allSeries);
+
+
+/*--------------------------------- Step 3b : Display EPISODE data --------------------------------------- */
+
+
+
+// I need to pass displayEpisodes an array of objects [{},{}]
+function displayEpisodes (episodeArray, lowerLimit, upperLimit) {
+  cl(episodeArray);
+  // This for loop goes through the episodes.js function and pulls the object and all the data for the episodes. It loops through the object
+  // and inserts the new html for each episode
+  for (let index = lowerLimit; index < upperLimit; index++) {
+    //cl(allEpisodes[72])
+    //cl(episodeArray[index])
+    const currentEpisode = episodeArray[index] ; 
+    //cl(currentEpisode)
+
+    // This code converts data to display season and date info e.g. S1E1 --> S01E01  
+    let formatEpisodeNum = currentEpisode.number;
+    let formatSeasonNum = currentEpisode.season;
+    
+    if (formatEpisodeNum < 10){
+      formatEpisodeNum = `0${formatEpisodeNum}`;
+      //cl(formatEpisodeNum)
+    }
+    if (formatSeasonNum < 10){
+      formatSeasonNum = `0${formatSeasonNum}`;
+      //cl(formatEpisodeNum)
+    }
 
     // This code below including the while loops, removes all <p></p> and <br> tags. Some of the summaries have these 
     // tags in the middle of the summary. This solution should remove all of the tags whether at start/middle/end
-    var summaryStr = summary;
+    var summaryStr = currentEpisode.summary;
+
+    if (summaryStr === null){
+      summaryStr = " ";
+    }
+
 
     while (summaryStr.indexOf("<p>") >= 0) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<p>"))) + summaryStr.slice((summaryStr.indexOf("<p>"))+3, summaryStr.length); 
@@ -449,20 +509,21 @@ function displaySeries (seriesArray, lowerLimit, upperLimit) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<br>"))) + summaryStr.slice((summaryStr.indexOf("<br>"))+4, summaryStr.length); 
     }
 
-
+    let passEpisodeTitle = currentEpisode.name;
     flexOuterContainer.innerHTML += `
     <div class="flexEpisodeContainer">
-          <h2 class="episodeTitle">Season ${seasonNum}</h2>
-          <h3 class="episodeNumberElement"><span class="seasonNum">${numOfEpisodes}</span><span
-              class="episodeNum"> Season${multipleSeasons}</span></h3>
+          <h2 class="episodeTitle">${passEpisodeTitle.toUpperCase()}</h2>
+          <h3 class="episodeNumberElement">S<span class="seasonNum">${formatSeasonNum}</span>E<span
+              class="episodeNum">${formatEpisodeNum}</span></h3>
 
           <div class="episodeImageContainer">
-            <img class="episodeImage" src=${imageLink}
-              alt="Season ${seasonNum} Banner Image">
+            <img class="episodeImage" src=${currentEpisode.image.medium}
+              alt="Season ${currentEpisode.season}, Episode ${currentEpisode.number} Image">
             <div class="imageOverlayTextContainer">
               <div class="imageOverlayText">
-                <h4>Start Date : <span>${startDate}</span></h4>
-                <h4>End Date : <span>${endDate}</span></h4>
+                <h4>Air Date : <span>${currentEpisode.airdate}</span></h4>
+                <h4>Air Time : <span>${currentEpisode.airtime}</span></h4>
+                <h4>Runtime : <span>${currentEpisode.runtime}</span> mins</h4>
               </div>
             </div>
           </div>
@@ -471,8 +532,9 @@ function displaySeries (seriesArray, lowerLimit, upperLimit) {
 
           <button class="popupButton" onclick="popUpFunctionIdSpecific(${index})">See More Info
             <span id="myPopupIndex${index}" class="popupButtonText" id="myPopup">
-              <a class="tvMazeLink" href=${tvMazeLink} target="_blank">TV Maze Episode Link</a>
+              <a class="tvMazeLink" href=${currentEpisode._links.self.href} target="_blank">TV Maze Episode Link</a>
               <br>
+              <a class="imbdLink" href=${currentEpisode._links.self.href} target="_blank">Official Site Link</a>
             </span>
           </button>
 
@@ -481,14 +543,10 @@ function displaySeries (seriesArray, lowerLimit, upperLimit) {
   }
 }
 
-// This function works by taking a variable which is the index from the for loop 
-// below which sets out the new innerHTML. It uses this variable to pull the corresponding
-// button ID. It then adds the "show" class which is then targeted in the CSS
-function popUpFunctionIdSpecific(variable) {
-  const popup = document.getElementById(`myPopupIndex${variable}`);
-  popup.classList.toggle("show");
-}
 
+
+
+  
 
 
 /*--------------------------- Image opacity based on scroll ------------------------------------------------ */
