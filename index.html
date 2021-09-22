@@ -5,9 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TV Show Project | Erin Dyson (erin-switchstitch)</title>
-  <link href="styleForMobile.css" rel="stylesheet" />
-  <link rel="stylesheet" media="screen and (min-width:600px)" href="styleForLaptop.css" type="text/css">
-  <link href="styleForCrackedHeading.css" rel="stylesheet" />
+  <link href="styleDefault.css" rel="stylesheet" type="text/css" />
+  <link href="styleForAbove600.css" rel="stylesheet" media="screen and (min-width:600px)" type="text/css">
+  <link href="styleForAbove1000.css" rel="stylesheet" media="screen and (min-width:1000px)" type="text/css">
+  <link href="styleForCrackedHeading.css" rel="stylesheet" type="text/css" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,23 +23,22 @@
 
   <div class="headerContainer">
     <header>
-      <a class="box A" id="firstBox">SERIES</a>
-      <a class="box B" id="secondBox">SEASON</a>
-      <a class="box C" id="thirdBox">EPISODES</a>
-      <a class="box D" id="forthBox"><span id="searchHeaderText">SEARCH</span> <span id="searchHeaderOverlay"></span></a>
+      <a class="box showing" id="firstBox">SERIES</a>
+      <a class="box hidden" id="secondBox">SEASON</a>
+      <a class="box hidden" id="thirdBox">EPISODES</a>
+      <a class="box showing" id="forthBox"><span id="searchHeaderText">SEARCH</span> <span
+          id="searchHeaderOverlay"></span></a>
 
-            <!-- <a class="box A" id="firstBox">SERIES</a>
+      <!-- <a class="box A" id="firstBox">SERIES</a>
             <a class="box B" id="secondBox">EPISODES</a>
             <a class="box C" id="thirdBox">SEARCH</a>
             <a class="box D" id="forthBox"><span id="HeaderEpisodesNum"></span></a> -->
     </header>
     <div class="subHeader">
       <div class="subHeaderLeft">
-
-    
         <select class="selectBox Hidden" id="seriesSelectBoxID">
           <option value="" selected>Show All Series</option>
-            <!-- <option>This is where the Series/Episode list will be added</option> -->
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
         </select>
         <select class="selectBox Hidden" id="seasonsSelectBoxID">
           <option value="" selected>Show All Seasons</option>
@@ -50,10 +50,18 @@
         </select>
       </div>
 
-      <input type="search" class="inputBox Hidden" id="inputBoxID" onkeyup="searchFunction()"
-        placeholder="Search for episodes..">
-      <a class="episodeNumBox Hidden" id="episodeNumBoxID">Currently showing<span id="subHeaderEpisodesNum"></span>
-        episodes</a>
+      <div class="inputBoxesContainer">
+        <a class="inputBox Hidden" id="subSearchZero">SEARCH :</a>
+        <a class="inputBox Hidden" onclick="subSearchToggleFunction(`subSearchOne`)" id="subSearchOne">BY SERIES</a>
+        <a class="inputBox Hidden" onclick="subSearchToggleFunction(`subSearchTwo`)" id="subSearchTwo">BY EPISODES</a>
+        <input class="inputBox Hidden" id="inputBoxID" type="search" class="inputBox Hidden" id="inputBoxID"
+          onkeyup="searchFunction()" placeholder="Search here ....">
+          <!-- readonly -->
+
+      </div>
+
+      <!--<a class="episodeNumBox Hidden" id="episodeNumBoxID">Currently showing<span id="subHeaderEpisodesNum"></span>
+        episodes</a> -->
     </div>
   </div>
 
@@ -61,14 +69,14 @@
 
     <div class="seriesContainer">
       <div class="seriesTextContainer">
-        <h1 data-text="GAME OF THRONES" class="seriesTextUncracked" id="cracked_heading_throwaway">
-          <span>GAME OF THRONES</span>
+        <h1 data-text="SHOWING ALL SERIES" class="seriesTextUncracked" id="cracked_heading_throwaway">
+          <span id="insertHeadingTextHere">SHOWING ALL SERIES</span>
         </h1>
       </div>
       <div class="seriesImageContainer">
         <!--<div class="seriesImageOverlay"></div> -->
         <img class="seriesImage" id="headerImageID" alt="TV series background image"
-          src="http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg">
+          src="https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif">
 
       </div>
     </div>

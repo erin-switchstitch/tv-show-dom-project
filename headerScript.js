@@ -33,53 +33,53 @@ for (let i=0; i < targetBoxes.length; i++){
 
 
     currentBox.addEventListener("click", function(){
-        // cl(currentBox);
+        cl(currentBox);
         // cl(currentMovedIndex);
 
-        // First box clicked
-        if ((alreadyMoved === false) && (currentMovedIndex <0)) {
-            // cl("First box clicked");
-            newBoxClicked(currentBox, i, move1speed, move2speed);
-            alreadyMoved = true; 
-            currentMovedIndex = i ; 
-
-        // Same box returned
-        } else if ((alreadyMoved === true) && (currentMovedIndex === i)) {
-            //cl("Same box returned");
-            sameBoxReturn(currentBox, currentMovedIndex, move1speed, move2speed);
-            alreadyMoved = false; 
-            currentMovedIndex = -1 ;
-
-
-        // Different Boxes Switch > Greater
-        } else if ((alreadyMoved === true) && ( i > currentMovedIndex)) {
-            //cl("Diff Box Switch > Greater");
-            //cl(currentBox);
-            sameBoxReturn(targetBoxes[currentMovedIndex], currentMovedIndex, move1speed, move1speed);
+        if (currentBox.classList.contains("showing")) {
             
-            setTimeout(function(){
+            // First box clicked
+            if ((alreadyMoved === false) && (currentMovedIndex <0)) {
+                // cl("First box clicked");
                 newBoxClicked(currentBox, i, move1speed, move2speed);
-            }, (switchDelay));
-            
-            alreadyMoved = true; 
-            currentMovedIndex = i ; 
+                alreadyMoved = true; 
+                currentMovedIndex = i ; 
 
-        // Different boxes switch < Less Than 
-        } else if (((alreadyMoved === true) && ( i < currentMovedIndex) && (i != -1))){
-            //cl("Diff Box Switch < LessThan");
-            //cl(currentBox);
-            sameBoxReturn(targetBoxes[currentMovedIndex], currentMovedIndex, move1speed, move2speed);
-            
-            setTimeout(function(){
-                newBoxClicked(currentBox, i, move1speed, move2speed);
-            }, (switchDelay));
-            
-            alreadyMoved = true; 
-            currentMovedIndex = i ; 
-        }    
+            // Same box returned
+            } else if ((alreadyMoved === true) && (currentMovedIndex === i)) {
+                //cl("Same box returned");
+                sameBoxReturn(currentBox, currentMovedIndex, move1speed, move2speed);
+                alreadyMoved = false; 
+                currentMovedIndex = -1 ;
 
-        //cl(currentMovedIndex);
-        //cl(alreadyMoved)
+
+            // Different Boxes Switch > Greater
+            } else if ((alreadyMoved === true) && ( i > currentMovedIndex)) {
+                //cl("Diff Box Switch > Greater");
+                //cl(currentBox);
+                sameBoxReturn(targetBoxes[currentMovedIndex], currentMovedIndex, move1speed, move1speed);
+
+                setTimeout(function(){
+                    newBoxClicked(currentBox, i, move1speed, move2speed);
+                }, (switchDelay));
+
+                alreadyMoved = true; 
+                currentMovedIndex = i ; 
+
+            // Different boxes switch < Less Than 
+            } else if (((alreadyMoved === true) && ( i < currentMovedIndex) && (i != -1))){
+                //cl("Diff Box Switch < LessThan");
+                //cl(currentBox);
+                sameBoxReturn(targetBoxes[currentMovedIndex], currentMovedIndex, move1speed, move2speed);
+
+                setTimeout(function(){
+                    newBoxClicked(currentBox, i, move1speed, move2speed);
+                }, (switchDelay));
+
+                alreadyMoved = true; 
+                currentMovedIndex = i ; 
+            }    
+        }
     });
 };
 
@@ -105,12 +105,21 @@ function showSelectBox(index, innerBoxSize){
         episodesSelectBox.classList.add("Show");
 
     } else if (index === 3){
-        //cl(inputBox.classList);
-        // inputBox.style.display = "flex";
-        inputBox.classList.remove("Hidden");
-        inputBox.style.transitionDuration = "500ms";
-        inputBox.style.marginLeft = `${(innerBoxSize)}px`;
-        inputBox.classList.add("Show");
+        cl("showSelectBox Search run")
+
+        // subSearchInputBoxToggle ();
+        subSearchToggleFunction("subSearchOne");
+
+        for (let i = 0; i < inputBoxes.length; i++) {
+            cl("input run")    
+            const currentInputBox = inputBoxes[i];
+            cl(currentInputBox)
+            currentInputBox.classList.remove("Hidden");
+            cl(currentInputBox.classList.remove("Hidden"))
+            currentInputBox.style.transitionDuration = "500ms";
+            // inputBoxesContainer[0].style.marginLeft = `${(innerBoxSize)}px`;
+            currentInputBox.classList.add("Show");
+        }
     }
 
 }
@@ -134,28 +143,52 @@ function hideSelectBox(index, innerBoxSize){
         episodesSelectBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
         episodesSelectBox.classList.add("Hidden");
     } else if (index === 3){
-        inputBox.classList.remove("Show");
-        inputBox.style.transitionDuration = "500ms";
-        inputBox.style.marginLeft = `-${(innerBoxSize*3)}px`;
-        inputBox.classList.add("Hidden");
+
+        subSearchInputBoxToggle ();
+        for (let i = 0; i < inputBoxes.length; i++) {
+            cl("input run")    
+            const currentInputBox = inputBoxes[i];
+            cl(currentInputBox)
+            inputBoxes[3].classList.remove("readOnlyClass");
+            currentInputBox.classList.remove("Show");
+            currentInputBox.style.transitionDuration = "500ms";
+            // currentInputBox.style.marginLeft = `-${(innerBoxSize)}px`;
+            currentInputBox.classList.add("Hidden");
+        }
+        
     }
 }
 
-function showSeriesText(){
+function returnSeriesText(){
     if (alreadyMoved === false){
+
+        seriesContainer.animate([
+            // keyframes
+            { paddingTop: '10vh' },
+            { paddingTop: '0vh' }
+            ], {
+            // timing options
+            duration: 300,
+        });
+        seriesContainer.style.paddingTop = "0vh";
+        seriesContainer.style.zIndex = "6";
+        seriesTextContainer.style.background = "linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.85),rgba(32, 32, 32, 0.8));"
         
         // setTimeout(function(){
         //     subHeaderContainer.style.zIndex = "5";
         // }, (2000));
 
-        seriesTextContainer.animate([
-            // keyframes
-            { opacity: '0' },
-            { opacity: '1' }
-            ], {
-            // timing options
-            duration: 1500,
-            });
+        // seriesTextContainer.animate([
+        //     // keyframes
+        //     { opacity: '0' },
+        //     { opacity: '1' }
+        //     ], {
+        //     // timing options
+        //     duration: 1500,
+        //     });
+        // seriesTextContainer.style.opacity = "1";    
+
+        cl("subHeader Container Opacity Change")
         subHeaderContainer.animate([
             // keyframes
             { opacity: '1' },
@@ -165,9 +198,9 @@ function showSeriesText(){
             duration: 1000,
             }); 
         subHeaderContainer.style.opacity = "0";
-        seriesTextContainer.style.opacity = "1";    
-        seriesContainer.style.zIndex = "6";
-        // subHeaderContainer.style.zIndex = "5";
+        subHeaderContainer.style.zIndex = "5";
+    
+  
         
         //cl("check below .........")
         //cl(seriesContainer);
@@ -176,22 +209,35 @@ function showSeriesText(){
 
 }
 
-function hideSeriesText(){
-    seriesTextContainer.animate([
+function pushSeriesText(){
+    seriesContainer.animate([
         // keyframes
-        { opacity: '1' },
-        { opacity: '0' }
+        { paddingTop: '0vh' },
+        { paddingTop: '10vh' }
         ], {
         // timing options
-        duration: 1000,
+        duration: 300,
         });
-    seriesTextContainer.style.opacity = "0";
-    seriesContainer.style.zIndex = "-1";
+
+        seriesTextContainer.animate([
+            // keyframes
+            { opacity: '0.2' },
+            { opacity: '1' }
+            ], {
+            // timing options
+        duration: 300,
+        });
+    // seriesTextContainer.style.opacity = "0";
+    // seriesContainer.style.zIndex = "-1";
+    seriesContainer.style.paddingTop = "10vh";
+    seriesTextContainer.style.background = `linear-gradient(to bottom,rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.75),rgba(32, 32, 32, 0.65),rgba(32, 32, 32, 0.55),rgba(32, 32, 32, 0.5))`; 
+
     subHeaderContainer.style.zIndex = "9";
     subHeaderContainer.style.opacity = "1";
     // cl("check below .........")
     // cl(seriesContainer);
 }
+
 
 
 function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
@@ -200,28 +246,29 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
     let moveLeft = headerTag.offsetWidth / (targetBoxes.length);
     let currentBoxTranslateX = `${moveLeft * index}`;
     let moveLeftPlusPadding = moveLeft + (moveLeft/2);
-   
+    
     // When the first box is clicked the transition duration is set to the fast
     // speed and moves the box down in 0.5s.  
     if (index === 0){
         currentBox.classList.add("moved");
         currentBox.style.transitionDuration = `${fasterSpeed}ms`;
         currentBox.style.transform = `translateY(${moveDown})`;
-        hideSeriesText();
+         pushSeriesText();
 
         
         setTimeout(function(){
             // cl("Select Across")
-
-            if (headerTag.offsetWidth > 600){
-                // cl(moveLeft + (moveLeft/2))
-                showSelectBox(index, moveLeftPlusPadding);
-            } else {
+            cl(headerTag.offsetWidth);
+            if (window.innerWidth < 600){
                 // cl("under 600px screen width run")
                 showSelectBox(index, moveLeft);
+            } else {
+                // cl(moveLeft + (moveLeft/2))
+                showSelectBox(index, moveLeftPlusPadding);
             }
 
         }, (fasterSpeed));
+        
 
     // When a new box is clicked and is not the first box
     } else if (index !== 0) {
@@ -230,7 +277,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
         currentBox.style.transform = `translateY(${moveDown})`;
         // console.log("Box Down")
         currentBox.style.transitionDuration = `${fasterSpeed}ms`;
-        hideSeriesText();
+        pushSeriesText();
         
         setTimeout(function(){
             console.log("Box Across")
@@ -238,12 +285,19 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
             
             setTimeout(function(){
                 // cl("Select Across")
-
                 showSelectBox(index, moveLeftPlusPadding);
+
+                setTimeout(function(){
+                    if (index===3) {
+                        const searchHeaderBox = document.getElementById("forthBox");
+                        cl(searchHeaderBox)
+                        searchHeaderBox.style.opacity = "0";
+                    }    
+                }, (switchDelay + switchDelay));
             }, (switchDelay));
 
         }, (fasterSpeed));
-        
+                       
     } 
 };
 
@@ -252,6 +306,12 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
     let moveLeft = headerTag.offsetWidth / (targetBoxes.length);
 
     if (index != 0){
+        if (index===3) {
+            const searchHeaderBox = document.getElementById("forthBox");
+            cl(searchHeaderBox)
+            searchHeaderBox.style.opacity = "1";
+        };
+
         currentBox.classList.remove("moved");
         hideSelectBox(index, moveLeft);
         currentBox.style.transform = `translateX(0px) translateY(${moveDown})`;
@@ -260,7 +320,8 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
             currentBox.style.transform = `translateY(0)`;
 
             setTimeout(function(){            
-                showSeriesText();
+                returnSeriesText();
+                
             }, (fasterSpeed));
 
         }, (fasterSpeed));
@@ -272,14 +333,36 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
             currentBox.style.transitionDuration = `${fasterSpeed}ms`;
             currentBox.style.transform = `translateY(0)`;
             currentBox.classList.remove("moved");
-            
-            setTimeout(function(){            
-                showSeriesText();
-            }, (fasterSpeed));
+            returnSeriesText();
+            // setTimeout(function(){            
+            //     returnSeriesText();
+            // }, (fasterSpeed));
 
         }, (fasterSpeed));
     }
 
 };
 
+function showHiddenHeaders(){
+    headersLocked = false;
+    for (let index = 0; index < targetBoxes.length; index++) {
+        if ((index > 0) && (index < 3)) {
+            const currentBox = targetBoxes[index];
+            cl(currentBox.classList);
+            currentBox.classList.remove("hidden");
+            currentBox.classList.add("showing");
+        }
+    }
+}
 
+function hideShowingHeaders(){
+    headersLocked = true;
+    for (let index = 0; index < targetBoxes.length; index++) {
+        if ((index > 0) && (index < 3)) {
+            const currentBox = targetBoxes[index];
+            cl(currentBox.classList);
+            currentBox.classList.remove("showing");
+            currentBox.classList.add("hidden");
+        }
+    }
+}

@@ -22,6 +22,8 @@ document.getElementsByTagName('select')[0].onchange = function() {
   var seriesIdAtIndex = allSeriesIndexArray[seriesIndex-1]
   cl(seriesIdAtIndex)
 
+      // displayEpisodes(allEpisodes,0,seriesIndex);
+
   if (seriesIndex === 0) {
     // Here I will need to run the series setup function when it is written ...
     hideShowingHeaders()
@@ -33,21 +35,10 @@ document.getElementsByTagName('select')[0].onchange = function() {
         createLoadMoreButton("allSeries");
     } else {
         displaySeries (allSeries, 0, seriesArray.length)
-    }
-
-    insertHeadingTextHere.innerText= "SHOWING ALL SERIES";
-    crackedHeadingID.dataset.text = "SHOWING ALL SERIES";
-    returnSeriesText();
-    headerImage.src = `https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif`; 
+    } 
     
   } else {
     resetEpisodesHTML()
-    cl(allSeries[seriesIdAtIndex]);
-    
-    insertHeadingTextHere.innerText= `${allSeries[seriesIndex -1].name.toUpperCase()}`;
-    crackedHeadingID.dataset.text = `${allSeries[seriesIndex -1].name.toUpperCase()}`; 
-    headerImage.src = `${allSeries[seriesIndex -1].image.original}`;
-
     cl("seriesID : " + seriesIdAtIndex)
     fetchSeasonsBySeries(seriesIdAtIndex)
     fetchEpisodesBySeries(seriesIdAtIndex)
@@ -137,104 +128,21 @@ document.getElementsByTagName('select')[2].onchange = function() {
 
 /*------------------ Search Logic - search function ---------------------------------------------- */
 
-// let searchBySeriesToggle = true; 
-// let searchByEpisodesToggle = false; 
-
-function subSearchToggleFunction(subSearchIdName){
-
-    cl("TOGGLE CLICKING RUN")
-    const subSearchClicked = document.getElementById(subSearchIdName)
-    cl(subSearchClicked)
-
-    const episodesHeaderBox = document.getElementById("thirdBox");
-        subSearchInputBoxToggle();
-
-    if (subSearchClicked.id === "subSearchOne") {
-        cl("Series Search")
-
-        if (searchBySeriesToggle === true){
-            searchBySeriesToggle = false;
-            const subSearchOne = document.getElementById("subSearchOne")
-            subSearchOne.classList.remove("Clicked")
-                subSearchInputBoxToggle();
-        } else {
-            searchBySeriesToggle = true; 
-            searchByEpisodesToggle = false; 
-            subSearchClicked.classList.add("Clicked");
-            const subSearchTwo = document.getElementById("subSearchTwo")
-            subSearchTwo.classList.remove("Clicked")
-                subSearchInputBoxToggle();
-        }
-
-
-    } else if ((subSearchClicked.id === "subSearchTwo") && (episodesHeaderBox.classList.contains("showing"))){
-        cl("Episode Search")
-        
-         if (searchByEpisodesToggle === true){
-            searchByEpisodesToggle = false;
-            subSearchClicked.classList.remove("Clicked");
-                subSearchInputBoxToggle();
-        } else {
-            searchBySeriesToggle = false; 
-            searchByEpisodesToggle = true; 
-            subSearchClicked.classList.add("Clicked");
-            const subSearchOne = document.getElementById("subSearchOne")
-            subSearchOne.classList.remove("Clicked")
-                subSearchInputBoxToggle();
-        }    
-    } 
-   
-    subSearchInputBoxToggle();
-    
-}
-
-function subSearchInputBoxToggle (){
-    cl("subSearchInputBoxToggle Function RUN !!!!")
-    cl(searchBySeriesToggle)
-    cl(searchByEpisodesToggle)
-
-    if ((searchBySeriesToggle === true)||(searchByEpisodesToggle === true)) {
-        cl("input box change one is true..")
-        inputBox.readOnly = false;
-        inputBox.classList.remove("Hidden")
-        inputBox.classList.remove("readOnlyClass")
-        inputBox.classList.add("Show")
-    } else {
-        inputBox.readOnly = true;
-        inputBox.classList.remove("Show")
-        inputBox.classList.add("readOnlyClass")
-    }
-}
-
-
-
 function searchFunction(){
     cl("search function run")
-    cl("searchBySeriesToggle :" + searchBySeriesToggle)
-    cl("searchByEpisodesToggle :" + searchByEpisodesToggle)
+    
     let searchInput = document.getElementById("inputBoxID").value;
     searchIndexArray =[];
-    let arrayToDisplay;
     let checkArrayByID =[];
+    //cl(searchInput)
     cl(searchIndexArray.length)
 
+    if ((searchInput != "<empty string>") && (searchInput.length > 0) && (searchInput.length<50)) {
 
-    if ((searchBySeriesToggle === true) || (searchByEpisodesToggle === true)){
-        if (searchByEpisodesToggle === true) {
-            arrayToDisplay = allEpisodes;
-            displayFunctionInput = displayEpisodes;
-        } else if (searchBySeriesToggle === true) {
-            arrayToDisplay = allSeries;
-            displayFunctionInput = displaySeries;
-        }
-
-
-        if ((searchInput != "<empty string>") && (searchInput.length > 0) && (searchInput.length<50)) {
-
-        for (let index = 0; index < arrayToDisplay.length; index++) {
-            const currentEpisode = arrayToDisplay[index];
+        for (let index = 0; index < allEpisodes.length; index++) {
+            const currentEpisode = allEpisodes[index];
             const currentValuesArray = Object.values(currentEpisode);
-            cl(currentValuesArray)
+            //cl(currentValuesArray)
             
             for (let j = 0; j < currentValuesArray.length; j++) {
                 
@@ -257,40 +165,24 @@ function searchFunction(){
             }
         }
 
-        resetEpisodesHTML();
-        cl(searchIndexArray)
-
-        let filteredSearchObject = [];
-
-        function convertIndexArrayToObjectForDisplay(initialIndexArray) {
-            for (let index = 0; index < initialIndexArray.length; index++) {
-                const indexToPass = initialIndexArray[index]
-                const currentArray = arrayToDisplay[indexToPass];
-                filteredSearchObject.push(currentArray);
-            }
-        }
-
-        convertIndexArrayToObjectForDisplay(searchIndexArray);
-        cl(filteredSearchObject);        
-
-        if (filteredSearchObject.length > episodeLimitVariable) {
-            displayFunctionInput(filteredSearchObject,0,episodeLimitVariable);
-            createLoadMoreButton("loadFromSearch");
-        } else {
-            removeLoadMoreButton();
-            displayFunctionInput(filteredSearchObject,0,searchIndexArray.length);
-        }
-
-        // populateEpisodeButton(searchIndexArray);
-
-        } else if ((searchInput.length>50) || (searchInput === "<empty string>")){
-            window.alert("Search input is not valid or is too long");
-            document.getElementById("inputBoxID").value = "";
-        } else if (searchInput.length === 0){
-            cl("Search = 0")
-            resetEpisodesHTML();
-            setup();
-        }
+    resetEpisodesHTML();
+    cl(searchIndexArray)
+    if (searchIndexArray.length > episodeLimitVariable) {
+        displayEpisodes(searchIndexArray,0,episodeLimitVariable);
+        createLoadMoreButton("loadFromSearch");
+    } else {
+        removeLoadMoreButton();
+        displayEpisodes(searchIndexArray,0,searchIndexArray.length);
     }
-    
+
+    populateEpisodeButton(searchIndexArray);
+
+    } else if ((searchInput.length>50) || (searchInput === "<empty string>")){
+        window.alert("Search input is not valid or is too long");
+        document.getElementById("inputBoxID").value = "";
+    } else if (searchInput.length === 0){
+        cl("Search = 0")
+        resetEpisodesHTML();
+        setup();
+    }
 }

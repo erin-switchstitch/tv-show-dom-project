@@ -87,6 +87,14 @@ header a:hover {
 }
  */
 
+.box.hidden {
+  color: black;
+} 
+
+.box.showing{
+  color: white;
+}
+
 .box.moved {
   background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
   border-top: #9615DB 3px solid;
@@ -115,9 +123,11 @@ header a:hover {
     top: 10vh;
     width: 100%;
     height: 10vh;
-    background: linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0));  
+    background: linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.85),rgba(32, 32, 32, 0.8));  
     z-index: 5;
     opacity: 0;
+    /* display: flex;
+    flex-direction: row; */
 }
 
 .subHeaderLeft {
@@ -131,6 +141,95 @@ header a:hover {
     
 }
 
+.inputBoxesContainer {
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  justify-content: space-around;
+  /* column-gap: 5vw; */
+  width: 100%;
+  /* position: fixed;
+  left: -20vw; */
+  font-family: "Share","Arial",sans-serif;
+}
+
+.inputBox.Hidden{
+    width:0vw;
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    margin-left: -80vw;
+    margin-top: 2.5vh;   
+}
+
+.inputBox.Show{
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width:20%;
+  height: 5vh;
+  z-index: 9;
+  margin-top: 2.5vh;
+
+  color: rgb(107, 107, 107);
+  background-color: #131213;
+  border-top: #9615DB 3px solid;
+  border-bottom: 0px;
+}
+
+.inputBox.Show.Clicked {
+  color: rgb(255, 255, 255);
+  background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+}
+
+.inputBox.Show#subSearchZero {
+  color: rgb(255, 255, 255);
+background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+}
+
+#inputBoxID {
+  font-family: "Share";
+  font-weight: 500;
+  font-size: large;
+}
+
+#inputBoxID.Show {
+  color: black;
+  background-color: rgb(195, 195, 195);
+}
+
+#inputBoxID.readOnlyClass{
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width:20%;
+  height: 5vh;
+  z-index: 9;
+  margin-top: 2.5vh;
+
+      
+    opacity: initial;
+    overflow: initial;
+    position: initial;
+    margin-left: initial;
+  
+  color: rgb(107, 107, 107);
+  background-color: #131213;
+  border: black;
+  border-top: #9615DB 3px solid;
+}
+
+/* 
+#subSearchZero, #subSearchOne, #subSearchTwo {
+
+  height: 100px;
+  width: 15vw;
+  background-color: white;
+  border: #9615DB;  
+} */
+
 
 .selectBox.Hidden{
     width:0vw;
@@ -141,13 +240,7 @@ header a:hover {
     opacity: 0;
 }
 
-.inputBox.Hidden{
-    width:0vw;
-    overflow: hidden;
-    position: fixed;
-    margin-left: -80vw;
-    margin-top: 2.5vh;   
-}
+
 
 .episodeNumBox.Hidden{
     width:0vw;
@@ -175,12 +268,7 @@ header a:hover {
   color: white;
 }
 
-.inputBox.Show{
-    margin-top: 2.5vh;
-    width:50vw;
-    height: 50%;
-    z-index: 9;
-}
+
 
 .episodeNumBox.Show{
     margin-top: 5.5vh;
@@ -189,6 +277,9 @@ header a:hover {
     z-index: 9;
     background-color: white;
 }
+
+
+
 
 /* -----------  Styling for the main container  ------------- */
   
@@ -217,6 +308,7 @@ header a:hover {
   height: 10vh;
   overflow: hidden;
   z-index: 1;
+    font-family: 'Share', Arial, sans-serif;
 
   background: linear-gradient(to bottom, 
     #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0));    
@@ -226,8 +318,8 @@ header a:hover {
   position: relative;
   font-family: 'Share', Arial, sans-serif;
   color:white;
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 7.5vw;
+  font-weight: 500;
   
   color: #fff;
   letter-spacing: 0.02em;

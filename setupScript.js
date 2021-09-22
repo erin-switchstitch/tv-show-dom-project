@@ -6,7 +6,6 @@ const loadMoreID = document.getElementById("loadMoreID");
 const episodesSelectBox = document.getElementById("selectBoxID");
 const seriesSelectBox = document.getElementById("seriesSelectBoxID");
 const seasonsSelectBox = document.getElementById("seasonsSelectBoxID")
-const inputBox = document.getElementById("inputBoxID");
 const targetBoxes = document.getElementsByClassName("box");
 const seriesContainer = document.getElementsByClassName("seriesContainer")[0];
 const seriesTextContainer = document.getElementsByClassName("seriesTextContainer")[0];
@@ -14,6 +13,15 @@ const headerContainer = document.getElementsByClassName("headerContainer")[0];
 const headerTag = document.getElementsByTagName("header")[0];
 const subHeaderContainer = document.getElementsByClassName("subHeader")[0];
 const episodeNumBoxID = document.getElementById("episodeNumBoxID");
+const inputBox = document.getElementById("inputBoxID");
+const inputBoxes = document.querySelectorAll(".inputBox")
+const inputBoxesContainer = document.getElementsByClassName("inputBoxesContainer");
+const insertHeadingTextHere = document.getElementById("insertHeadingTextHere");
+const crackedHeadingID = document.getElementById("cracked_heading_throwaway")
+let searchBySeriesToggle = false; 
+let searchByEpisodesToggle = false; 
+
+
 
 const episodeLimitVariable = 20;
 let initialLimitLower = 0;
@@ -22,6 +30,7 @@ let allEpisodesIndexArray =[];
 let allEpisodesSeasonNumArray =[];
 let allSeriesIndexArray = [];
 let searchIndexArray =[];
+let headersLocked = true;
 
 
 
@@ -160,6 +169,22 @@ function createAllSeriesIDArray(arrayToCovert){
 function displaySeries (seriesArray, lowerLimit, upperLimit) {
   cl("displaySeries run ...")
   cl(seriesArray)
+
+
+  if (seriesArray.length > 300){
+    insertHeadingTextHere.innerText= "SHOWING ALL SERIES";
+    crackedHeadingID.dataset.text = "SHOWING ALL SERIES"; 
+  } else if (seriesArray.length > 1){
+    insertHeadingTextHere.innerText= `SHOWING ${seriesArray.length} OF 301 SERIES`;
+    crackedHeadingID.dataset.text = `SHOWING ${seriesArray.length} OF 301 SERIES`; 
+  } 
+  // else {
+  //   insertHeadingTextHere.innerText= `${seriesArray[0].name}`;
+  //   crackedHeadingID.dataset.text = `${seriesArray[0].name}` ; 
+  // }
+
+
+
   for (let index = lowerLimit; index < upperLimit; index++) {
 
     let currentSeries = seriesArray[index]; 
@@ -176,6 +201,8 @@ function displaySeries (seriesArray, lowerLimit, upperLimit) {
     let multipleSeries;
     if (seriesArray.length > 1){
       multipleSeries = `s`;
+    } else {
+      multipleSeries ="";
     }
     
 
@@ -194,20 +221,31 @@ function displaySeries (seriesArray, lowerLimit, upperLimit) {
       summaryStr = summaryStr.slice(0,(summaryStr.indexOf("<br>"))) + summaryStr.slice((summaryStr.indexOf("<br>"))+4, summaryStr.length); 
     }
 
+    let currentGenresArray = [];
+
+    currentSeries.genres.forEach(function(element){
+                  //cl(element)
+                  currentGenresArray.push(` ${element}`);
+    })
+  
+
 
     flexOuterContainer.innerHTML += `
     <div class="flexEpisodeContainer">
           <h2 class="episodeTitle">${seriesName}</h2>
-          <h3 class="episodeNumberElement"><span class="seasonNum">Status : </span><span
-              class="episodeNum">${seriesStatus}</span></h3>
+          <h3 class="episodeNumberElement"><span class="seasonNum">Rating : &nbsp </span><span
+              class="episodeNum">${currentSeries.rating.average}</span></h3>
 
           <div class="episodeImageContainer">
             <img class="episodeImage" src=${seriesImage}
               alt="${seriesName} Banner Image">
             <div class="imageOverlayTextContainer">
               <div class="imageOverlayText">
+                <h4>Status : <span>${currentSeries.status}</span></h4>
+                <h4>Genres : <span>${currentGenresArray
+                }</span></h4>
                 <h4>Start Date : <span>${startDate}</span></h4>
-                <h4>End Date : <span>${endDate}</span></h4>
+                <h4>Episode Runtime : <span>${currentSeries.runtime}</span> mins</h4>
               </div>
             </div>
           </div>
@@ -244,15 +282,14 @@ function fetchSeasonsBySeries(seriesID){
     resetLimitValues();
     removeLoadMoreButton();
     allSeasons = data; 
-    // createAllSeriesIndexArray(allShows);
-    // createAllEpisodesIndexArray(allEpisodes);
-    // console.log(allEpisodes)
     cl(allSeasons)
 
     resetEpisodesHTML();
     displaySeasons(allSeasons,0,allSeasons.length)
-        populateSeasonHeaderSelect(allSeasons)
-  });
+    populateSeasonHeaderSelect(allSeasons)
+
+
+  })
 }
 
 
@@ -294,10 +331,15 @@ function displaySeasons (seasonArray, lowerLimit, upperLimit) {
     let multipleEpisodes;
     if (seasonArray.length > 1){
       multipleEpisodes = `s`;
+    } else {
+       multipleEpisodes = ``;
     }
+
     let imageLink = "";
-    if (currentSeason.image!= null){
+    if (currentSeason.image != null){
       imageLink = currentSeason.image.medium;
+    } else {
+      imageLink = `https://www.virginmediastore.com/media/tile-placeholder-poster.2769cb5f.png`;
     }
     cl(currentSeason.image)
     
@@ -371,7 +413,6 @@ function fetchEpisodesBySeries(seriesID){
   .then(response => response.json())
   .then((data) => {
     cl("fetchEpisodesBySeries function run")
-    // allSeriesIndexArray = [];
     allEpisodes = data;
     createAllEpisodesIndexArray(allEpisodes);
     cl(allEpisodes)
