@@ -1,0 +1,768 @@
+:root {
+  --header-offset: 10vh;
+}
+
+* { 
+    Box-sizing: Border-box; 
+    font-family: "Ubuntu","Arial",sans-serif;
+} 
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  margin: 0;
+}
+
+body {
+  background-color: #0c0c0c;
+}
+
+/* ---------------- Styling for header container  ----------------- */
+
+.headerContainer{
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  background-color: #40095e;
+  height: var( --header-offset);
+  /* justify-content: space-around; */
+   user-select: none;
+  z-index: 10;
+}
+
+header {
+   display: flex;
+   position: fixed;
+   width: 100vw;
+   height: var( --header-offset);
+   justify-content: space-around;
+   align-content: space-around;
+   background-color:#131213;
+    border-bottom: #9615db4f 2px solid;
+   /* border-bottom: #9615DB 5px solid; */
+   z-index: 10;
+}
+
+header a {
+    width: 20%;
+    height: 50%;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    border: 2px inset rgba(98, 1, 136, 0.253);
+    border-bottom: #9615DB 3px solid;
+    border-radius: 2px;
+    background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));
+    /* background-color: rgba(128, 128, 128, 0.123);     */
+    color: white;
+    font-family: "Share";
+    letter-spacing: 1.4px;
+    font-weight: 400;
+    z-index: 11;
+
+}
+
+header a:hover {
+
+    border: 2px inset rgba(98, 1, 136, 0.253);
+    border-bottom: #9615DB 3px solid;
+    border-radius: 2px;
+    color: purple;
+    /* background: rgb(28,16,31);
+    background: radial-gradient(circle, rgba(28,16,31,1) 0%, rgba(0,0,0,1) 35%, rgba(139,4,162,1) 100%); */
+    /* background-color: rgba(128, 128, 128, 0.123);     */
+    /* -webkit-animation:transitionColor 5s infinite; */
+}
+
+/* @-webkit-keyframes transitionColor {
+    0% {background: linear-gradient(rgba(128, 128, 128, 0.123), rgba(153, 37, 173, 0.123));}
+    100% {background: radial-gradient(circle, rgba(28,16,31,1) 0%, rgba(0,0,0,1) 35%, rgba(139,4,162,1) 100%);;}
+}
+ */
+
+.box.hidden {
+  color: rgb(107, 107, 107);
+} 
+
+.box.hidden:hover {
+  cursor:not-allowed;
+  transition-duration: 500ms;
+  color: #6f0909;
+} 
+
+
+.box.showing{
+  color: white;
+  cursor: pointer;
+   user-select: none;
+}
+
+.box.showing:hover{
+  transition-duration: 500ms;
+  color: #9615DB;
+  border-bottom: white 3px solid;
+
+}
+
+.box.moved {
+  background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+  border-top: #9615DB 3px solid;
+  border-bottom: 0px;
+
+}
+
+#searchHeaderOverlay{
+  display : none;
+}
+
+#searchHeaderText {
+  display: flex;
+  font-family: "Share";
+}
+
+
+#forthBox:hover + #searchHeaderOverlay {
+  display: flex;
+ 
+}
+
+
+
+.subHeader {
+    position: fixed;
+    top: 10vh;
+    width: 100%;
+    height: 10vh;
+    background: linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.85),rgba(32, 32, 32, 0.8));  
+    z-index: 5;
+    opacity: 0;
+    /* display: flex;
+    flex-direction: row; */
+}
+
+.subHeaderLeft {
+    position: fixed;
+    top: 10vh;
+    height: 10vh;
+    width: 22.5vw;
+    z-index: 0;
+    /* background: linear-gradient(to right, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0));   */
+    /* z-index: 5; */
+    
+}
+
+.inputBoxesContainer {
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  justify-content: space-around;
+  /* column-gap: 5vw; */
+  width: 100%;
+  /* position: fixed;
+  left: -20vw; */
+  font-family: "Share","Arial",sans-serif;
+}
+
+.inputBox.Hidden{
+    width:0vw;
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    margin-left: -80vw;
+    margin-top: 2.5vh;   
+}
+
+.inputBox.Show{
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width:20%;
+  height: 5vh;
+  z-index: 9;
+  margin-top: 2.5vh;
+
+  color: rgb(107, 107, 107);
+  background-color: #131213;
+  border-top: #9615DB 3px solid;
+  border-bottom: 0px;
+  cursor: pointer;
+}
+
+.inputBox.Show.Clicked {
+  color: rgb(255, 255, 255);
+  background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+}
+
+
+.inputBox.noSelect:hover {
+  cursor:not-allowed;
+  transition-duration: 500ms;
+  color: #6f0909;
+}
+
+
+
+.inputBox.Show#subSearchZero {
+  color: rgb(255, 255, 255);
+background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+}
+
+#inputBoxID {
+  font-family: "Share";
+  font-weight: 500;
+  font-size: large;
+  letter-spacing: 1px;
+}
+
+#inputBoxID.Show {
+  color: black;
+  background-color: rgb(195, 195, 195);
+}
+
+#inputBoxID.readOnlyClass{
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width:20%;
+  height: 5vh;
+  z-index: 9;
+  margin-top: 2.5vh;
+
+      
+    opacity: initial;
+    overflow: initial;
+    position: initial;
+    margin-left: initial;
+  
+  color: rgb(107, 107, 107);
+  background-color: #131213;
+  border: black;
+  border-top: #9615DB 3px solid;
+}
+
+#inputBoxID.readOnlyClass:focus{
+  outline:2px solid #6f0909;
+}
+
+#inputBoxID.Show:focus{
+  outline:#9615DB 2px solid;;
+}
+
+
+
+.selectBox.Hidden{
+    width:0vw;
+    overflow: hidden;
+    position: fixed;
+    margin-left: -40vw;
+    margin-top: 2.5vh;
+    opacity: 0;
+}
+
+
+
+.episodeNumBox.Hidden{
+    width:0vw;
+    overflow: hidden;
+    position: fixed;
+    margin-left: -80vw;
+    margin-top: 2.5vh;
+}
+
+
+.selectBox.Show{
+    /* margin-left: 25.5vw; */
+    margin-top: 2.5vh;
+    width:50vw;
+    z-index: 9;
+    height: 5vh;
+    border-radius: 1px;
+    border:0px solid white;
+    border-top: #9615DB 3px solid;
+    font-size: 20px;
+}
+
+.selectBox.Show::selection{
+  background: linear-gradient(to bottom, #9615DB,#9615DB,rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0.5));  
+  color: white;
+}
+
+
+
+.episodeNumBox.Show{
+    margin-top: 5.5vh;
+    width:50vw;
+    height: 5vh;
+    z-index: 9;
+    background-color: white;
+}
+
+
+
+
+/* -----------  Styling for the main container  ------------- */
+  
+.outerMainContainer{
+    padding-top: var( --header-offset);
+     /* border:5px solid black; */
+}
+
+
+.seriesContainer {
+  position:fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+   z-index: 6;
+  /* z-index: 0;  */
+                /*<-------------------------- Makes seriesText disappear*/ 
+}
+
+.seriesTextContainer {
+  display: flex;
+  /* position: fixed; */
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  overflow: hidden;
+  z-index: 1;
+    font-family: 'Share', Arial, sans-serif;
+
+  background: linear-gradient(to bottom, 
+    #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.6),rgba(32, 32, 32, 0));    
+}
+
+.seriesTextUncracked{
+  position: relative;
+  font-family: 'Share', Arial, sans-serif;
+  color:white;
+  font-size: 7.5vw;
+  font-weight: 500;
+  
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-shadow: 1px 2px 0.15em #9615DB;
+  user-select: none;
+  white-space: nowrap;
+  filter: blur(0.009em);
+  
+
+}
+
+
+.seriesImageContainer{
+  width:100%;
+  display: flex;
+  justify-content: center;
+}
+
+.seriesImage{
+    position: absolute;
+    top: 0vh;
+    max-height: 70vh; 
+    max-width:fit-content;
+    object-fit: cover;   
+}
+
+
+
+
+
+
+/* -----------  Styling for the flex container for episodes boxes  -------------- */
+
+.flexOuterContainer{
+    /* border:5px solid #D2D3D3; */
+    padding-top: 70vh;
+    display: flex;
+    /*flex-direction: column; This doesn't work with justify-content*/
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+        padding-left: 10vw;
+    padding-right: 10vw;
+
+    
+}
+
+/* -----------  Styling for the individual episodes ----------- */
+
+.flexEpisodeContainer {
+  flex: 1 0 21%; /* explanation below */
+
+  border:5px solid #D2D3D3;
+    border-radius: 10px;
+    background-color: #2D3032;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    min-width: 300px;
+    /* max-width: 300px; */
+    min-height: 500px;
+    margin: 10px;
+    row-gap:12px ;   
+    z-index: 8; /*<--------------------------------------------------------- This controls pic index*/
+}
+
+ /* border:5px solid #D2D3D3;
+    border-radius: 10px;
+    background-color: #2D3032;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 300px;
+    margin: 10px;
+    row-gap:12px ;   
+    z-index: 8; <--------------------------------------------------------- This controls pic index */
+
+.flexEpisodeContainer:hover {
+  transition: .5s ease;
+  border:5px solid #9615DB;
+}
+
+.flexEpisodeContainer:hover .popupButton {
+  transition: .5s ease;
+  background-color: #9615DB;
+  border-color: #9615DB;
+}
+
+.episodeTitle{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    border-bottom: solid 2px #9615dbbe;
+    padding-top: 10px;
+    font-family: "Share";
+    
+}
+
+.episodeNumberElement{
+    display: flex;
+    justify-content: center;
+}
+
+/* ------ Styling code for episodeImage and overlay ---------- */
+
+.episodeImageContainer{
+    position: relative;
+}
+
+.episodeImage {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.imageOverlayTextContainer{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #4b0b6dbb;
+}
+
+
+.episodeImageContainer:hover .imageOverlayTextContainer {
+  opacity: 0.91;
+}
+
+
+.imageOverlayText{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    white-space: nowrap;
+    line-height: 35px;
+}
+
+
+/* ------ Styling for <p> element (episodeSummary) ---------- */
+
+.episodeSummary{  
+  height: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+  word-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+/* ------ Styling code for Button and Popup ---------- */
+
+.popupButton {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-top: 2px solid #9615DB;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #D2D3D3;
+  font-size: 1em;
+  font-weight:510;
+  
+}
+
+
+
+.flexEpisodeContainer:hover .popupButton:hover {
+  transition: .5s ease;
+  background-color: #D2D3D3;
+  /* font-size: 1.1em; */
+  font-weight:550;
+  /* border: 2px solid #9615DB; */
+}
+
+/* The actual popup */
+.popupButton .popupButtonText {
+  visibility: hidden;
+  width: 160px;
+  background-color: #D2D3D3;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+ 
+}
+
+.popupButton .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+  
+}
+
+
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+@-webkit-keyframes fadeOut {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeOut {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+/* ------ Styling code for loadMoreButton ---------- */
+
+.loadMoreContainer{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+
+.loadMoreButton {
+  display: flex;
+  margin-top: 5vh;
+  height: 5vh;
+  width: 15vw;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  border-top: #9615DB 3px solid;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+  font-size: 1.6em;
+  z-index: 10;
+}
+
+.loadMoreButton:hover {
+  cursor: pointer;
+}
+/* --------- Styling code for Footer ---------- */
+
+footer{
+  width: 100vw;
+  color : white;
+  background-color: rgb(41, 41, 41);
+  height: 10vh;
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+
+}
+
+#footerID {
+    align-self:center;
+  align-content: center;
+  align-items: center;
+}
+
+
+/* ------------------- Styling code for CRACKED TEXT ----------------- */
+
+.seriesTextCracked{
+    position: relative;
+    font-family: 'Share', Arial, sans-serif;
+    color:white;
+    background-color: #1b1b1bd8;
+  font-size: 7.5vw;
+  font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-shadow: 1px 2px 0.15em #9615DB;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.009em);
+    /*animation: shake 2.5s linear forwards;*/
+}
+
+/* Forked Blackmirror text animation https://codepen.io/GeorgePark/pen/jeBbGN */
+/*
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    overflow: hidden;
+}*/
+
+#insertHeadingTextHere {
+    font-family: 'Share', Arial, sans-serif;
+}
+
+.seriesTextCracked span {
+    position: absolute;
+      font-family: 'Share', Arial, sans-serif;
+    top: 0;
+    left: 0;
+    /*display: flex;
+    flex-direction:row;*/
+    transform: translate(-50%, -50%);
+    -webkit-clip-path: polygon(10% 0%, 44% 0%, 70% 100%, 55% 100%);
+            clip-path: polygon(10% 0%, 44% 0%, 70% 100%, 55% 100%);
+    animation: crack3 2.5s linear forwards;
+}
+
+.seriesTextCracked::before,
+.seriesTextCracked::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* The before and after seem to be the two sides of the cracked */
+
+.seriesTextCracked::before {
+    animation: crack1 2.5s linear forwards;
+    /* clip-path is the way that the text has been divide up. Can be done in lots of different shapes e.g circle. It works by obscuring part of the element targeted*/
+    -webkit-clip-path: polygon(0% 0%, 10% 0%, 55% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 10% 0%, 55% 100%, 0% 100%);
+}
+
+/* animation is pure CSS. crack2 refers to the @keyframes that is linked below. It is directed at the h1 element. 2.5s refers to delay. Can add duration here. Linear refers to text moving to one side (i.e. not ease-in-out). Forwards refers to direction.,  */
+
+.seriesTextCracked::after {
+    animation: crack2 2.5s linear forwards;
+    -webkit-clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);
+            clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);
+}
+
+@keyframes crack1 {
+    /*These outer % refer to percentage moved through the animation. Can add anything I want...*/
+    0%,5%{
+        transform: translate(-50%, -50%);
+    }
+  
+    /* This changes the left crack movement*/
+    9% {
+        transform: translate(-61%, -50%);
+        
+    }
+    30%{
+      transform: translate(-61%, -50%);
+      opacity: 0;
+    } 
+    100% {
+      transform: translate(-61%, -50%);
+      opacity: 0;
+      
+    }
+}
+
+@keyframes crack2 {
+    0%,5%{
+        transform: translate(-50%, -50%);
+        
+    }
+  
+    /* This changes the left crack movement*/
+    9% {
+        transform: translate(-39%, -50%);
+        /*opacity: 1;*/
+    }
+    30%{
+      transform: translate(-39%, -50%);
+      opacity: 0;
+    } 
+    100% {
+      transform: translate(-39%, -50%);
+      opacity: 0;
+      /*opacity : 0 ;*/
+    }
+}
+
+@keyframes crack3 {
+    0%,5%{
+        opacity: 1;
+    }
+    30%{
+        opacity: 0;
+    } 
+    100%{
+        opacity: 0;
+    }
+}

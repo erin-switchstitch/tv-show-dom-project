@@ -1,21 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | My Name (My GitHub username)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <div id="root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project | Erin Dyson (erin-switchstitch)</title>
+  <link href="styleDefault.css" rel="stylesheet" type="text/css" />
+  <link href="styleForAbove600.css" rel="stylesheet" media="screen and (min-width:600px)" type="text/css">
+  <link href="styleForAbove1000.css" rel="stylesheet" media="screen and (min-width:1000px)" type="text/css">
+  <link href="styleForCrackedHeading.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share:wght@400;700&family=Ubuntu:wght@300;400&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="headerContainer">
+    <header>
+      <a class="box showing" id="firstBox">SERIES</a>
+      <a class="box hidden" id="secondBox">SEASON</a>
+      <a class="box hidden" id="thirdBox">EPISODES</a>
+      <a class="box showing" id="forthBox"><span id="searchHeaderText">SEARCH</span> <span
+          id="searchHeaderOverlay"></span></a>
+
+      <!-- <a class="box A" id="firstBox">SERIES</a>
+            <a class="box B" id="secondBox">EPISODES</a>
+            <a class="box C" id="thirdBox">SEARCH</a>
+            <a class="box D" id="forthBox"><span id="HeaderEpisodesNum"></span></a> -->
+    </header>
+    <div class="subHeader">
+      <div class="subHeaderLeft">
+        <select class="selectBox Hidden" id="seriesSelectBoxID">
+          <option value="" selected>Show All Series</option>
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
+        <select class="selectBox Hidden" id="seasonsSelectBoxID">
+          <option value="" selected>Show All Seasons</option>
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
+        <select class="selectBox Hidden" id="selectBoxID">
+          <option value="" selected>Show All Episodes</option>
+          <!-- <option>This is where the Series/Episode list will be added</option> -->
+        </select>
+      </div>
+
+      <div class="inputBoxesContainer">
+        <a class="inputBox Hidden" id="subSearchZero">SEARCH :</a>
+        <a class="inputBox Hidden" onclick="subSearchToggleFunction(`subSearchOne`)" id="subSearchOne">BY SERIES</a>
+        <a class="inputBox Hidden noSelect" onclick="subSearchToggleFunction(`subSearchTwo`)" id="subSearchTwo">BY EPISODES</a>
+        <input class="inputBox Hidden" id="inputBoxID" type="search" class="inputBox Hidden" id="inputBoxID"
+          onkeyup="searchFunction()" placeholder="Search here ....">
+          <!-- readonly -->
+
+      </div>
+
+      <!--<a class="episodeNumBox Hidden" id="episodeNumBoxID">Currently showing<span id="subHeaderEpisodesNum"></span>
+        episodes</a> -->
+    </div>
+  </div>
+
+  <div class="outerMainContainer">
+
+    <div class="seriesContainer">
+      <div class="seriesTextContainer">
+        <h1 data-text="SHOWING ALL SERIES" class="seriesTextUncracked" id="cracked_heading_throwaway">
+          <span id="insertHeadingTextHere">SHOWING ALL SERIES</span>
+        </h1>
+      </div>
+      <div class="seriesImageContainer">
+        <!--<div class="seriesImageOverlay"></div> -->
+        <img class="seriesImage" id="headerImageID" alt="TV series background image"
+          src="https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif" draggable="false">
+
+      </div>
     </div>
 
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
 
-    <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
-  </body>
+    <div class="flexOuterContainer">
+
+    </div>
+
+    <div id="loadMoreID">
+
+    </div>
+  </div>
+  </div>
+  <footer>
+    <h2 id="footerID">CYF Project 10/2021 - By Erin Dyson - Pure Javascript</h2>
+  </footer>
+
+  <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+  <script src="episodes.js"></script>
+
+  <!-- Loads a provided function called getAllShows() which returns all episodes -->
+  <script src="shows.js"></script>
+
+  <!-- Loads YOUR javascript code -->
+  <script src="setupScript.js"></script>
+  <script src="headerScript.js"></script>
+  <script src="searchScript.js"></script>
+</body>
+
 </html>
