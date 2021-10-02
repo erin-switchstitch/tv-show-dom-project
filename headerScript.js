@@ -42,6 +42,7 @@ for (let i=0; i < targetBoxes.length; i++){
             if ((alreadyMoved === false) && (currentMovedIndex <0)) {
                 // cl("First box clicked");
                 newBoxClicked(currentBox, i, move1speed, move2speed);
+                pushDownSeriesText();
                 alreadyMoved = true; 
                 currentMovedIndex = i ; 
 
@@ -49,6 +50,7 @@ for (let i=0; i < targetBoxes.length; i++){
             } else if ((alreadyMoved === true) && (currentMovedIndex === i)) {
                 //cl("Same box returned");
                 sameBoxReturn(currentBox, currentMovedIndex, move1speed, move2speed);
+                pullUpSeriesText();
                 alreadyMoved = false; 
                 currentMovedIndex = -1 ;
 
@@ -159,7 +161,7 @@ function hideSelectBox(index, innerBoxSize){
     }
 }
 
-function returnSeriesText(){
+function pullUpSeriesText(){
     if (alreadyMoved === false){
 
         seriesContainer.animate([
@@ -172,21 +174,19 @@ function returnSeriesText(){
         });
         seriesContainer.style.paddingTop = "0vh";
         seriesContainer.style.zIndex = "6";
-        seriesTextContainer.style.background = "linear-gradient(to bottom, #40095e,rgba(32, 32, 32, 0.979),rgba(32, 32, 32, 0.9),rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.85),rgba(32, 32, 32, 0.8));"
-        
-        // setTimeout(function(){
-        //     subHeaderContainer.style.zIndex = "5";
-        // }, (2000));
 
-        // seriesTextContainer.animate([
-        //     // keyframes
-        //     { opacity: '0' },
-        //     { opacity: '1' }
-        //     ], {
-        //     // timing options
-        //     duration: 1500,
-        //     });
-        // seriesTextContainer.style.opacity = "1";    
+
+        seriesTextContainer.style.background = `#9615db00`; 
+
+        seriesTextContainer.animate([
+        // keyframes
+        { background : "#9615db00"},
+        { background : "#9615db00"}
+        ], {
+        // timing options
+        duration: 300,
+        });
+        seriesTextContainer.style.background = `linear-gradient(to bottom,rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.75),rgba(32, 32, 32, 0.65),rgba(32, 32, 32, 0.55),rgba(32, 32, 32, 0.5))`;     
 
         cl("subHeader Container Opacity Change")
         subHeaderContainer.animate([
@@ -199,17 +199,30 @@ function returnSeriesText(){
             }); 
         subHeaderContainer.style.opacity = "0";
         subHeaderContainer.style.zIndex = "5";
-    
-  
-        
-        //cl("check below .........")
-        //cl(seriesContainer);
-        
+
     }
 
 }
 
-function pushSeriesText(){
+function pushDownSeriesText(){
+
+    subHeaderContainer.style.zIndex = "1";
+    seriesTextContainer.style.zIndex = "6";
+  
+    subHeaderContainer.style.opacity = "1";
+
+
+    seriesTextContainer.style.background = `#9615db00`; 
+    seriesTextContainer.animate([
+        // keyframes
+        { background : "#9615db00"},
+        { background : "#9615db00"}
+        ], {
+        // timing options
+        duration: 300,
+        });
+    seriesTextContainer.style.background = `linear-gradient(to bottom,rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.75),rgba(32, 32, 32, 0.65),rgba(32, 32, 32, 0.55),rgba(32, 32, 32, 0.5))`;     
+
     seriesContainer.animate([
         // keyframes
         { paddingTop: '0vh' },
@@ -218,24 +231,19 @@ function pushSeriesText(){
         // timing options
         duration: 300,
         });
-
-        seriesTextContainer.animate([
-            // keyframes
-            { opacity: '0.2' },
-            { opacity: '1' }
-            ], {
-            // timing options
-        duration: 300,
-        });
-    // seriesTextContainer.style.opacity = "0";
-    // seriesContainer.style.zIndex = "-1";
     seriesContainer.style.paddingTop = "10vh";
-    seriesTextContainer.style.background = `linear-gradient(to bottom,rgba(32, 32, 32, 0.8),rgba(32, 32, 32, 0.75),rgba(32, 32, 32, 0.65),rgba(32, 32, 32, 0.55),rgba(32, 32, 32, 0.5))`; 
+    
+    seriesTextContainer.animate([
+        // keyframes
+        { opacity: '0.1' },
+        { opacity: '1' }
+        ], {
+        // timing options
+    duration: 600,
+    });
+      
+    seriesTextContainer.style.opacity = "1";
 
-    subHeaderContainer.style.zIndex = "9";
-    subHeaderContainer.style.opacity = "1";
-    // cl("check below .........")
-    // cl(seriesContainer);
 }
 
 
@@ -253,7 +261,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
         currentBox.classList.add("moved");
         currentBox.style.transitionDuration = `${fasterSpeed}ms`;
         currentBox.style.transform = `translateY(${moveDown})`;
-         pushSeriesText();
+        //  pushDownSeriesText();
 
         
         setTimeout(function(){
@@ -277,7 +285,7 @@ function newBoxClicked(currentBox, index, fasterSpeed, lowerSpeed){
         currentBox.style.transform = `translateY(${moveDown})`;
         // console.log("Box Down")
         currentBox.style.transitionDuration = `${fasterSpeed}ms`;
-        pushSeriesText();
+        // pushDownSeriesText();
         
         setTimeout(function(){
             console.log("Box Across")
@@ -320,7 +328,7 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
             currentBox.style.transform = `translateY(0)`;
 
             setTimeout(function(){            
-                returnSeriesText();
+                pullUpSeriesText();
                 
             }, (fasterSpeed));
 
@@ -333,7 +341,7 @@ function sameBoxReturn(currentBox, index, fasterSpeed, lowerSpeed){
             currentBox.style.transitionDuration = `${fasterSpeed}ms`;
             currentBox.style.transform = `translateY(0)`;
             currentBox.classList.remove("moved");
-            returnSeriesText();
+            pullUpSeriesText();
             // setTimeout(function(){            
             //     returnSeriesText();
             // }, (fasterSpeed));

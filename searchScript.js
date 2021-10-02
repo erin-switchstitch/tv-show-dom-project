@@ -22,11 +22,16 @@ document.getElementsByTagName('select')[0].onchange = function() {
   var seriesIdAtIndex = allSeriesIndexArray[seriesIndex-1]
   cl(seriesIdAtIndex)
 
+subSearchTwo.classList.remove("noSelect");
+
   if (seriesIndex === 0) {
     // Here I will need to run the series setup function when it is written ...
+    cl("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     hideShowingHeaders()
     sameBoxReturn(targetBoxes[0], currentMovedIndex, move1speed, move2speed);
     resetEpisodesHTML()
+    // populateEpisodeHeaderSelect(allEpisodes, 0, 0, allEpisodes.length)
+
 
     if (allSeries.length > episodeLimitVariable) {
         displaySeries (allSeries, initialLimitLower, initialLimitUpper) 
@@ -37,9 +42,9 @@ document.getElementsByTagName('select')[0].onchange = function() {
 
     insertHeadingTextHere.innerText= "SHOWING ALL SERIES";
     crackedHeadingID.dataset.text = "SHOWING ALL SERIES";
-    returnSeriesText();
     headerImage.src = `https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif`; 
-    
+    alreadyMoved === false
+    pullUpSeriesText();
   } else {
     resetEpisodesHTML()
     cl(allSeries[seriesIdAtIndex]);
@@ -106,8 +111,9 @@ document.getElementsByTagName('select')[1].onchange = function() {
 // EPISODES - <option><select>
 document.getElementsByTagName('select')[2].onchange = function() {
   var index = this.selectedIndex;
+
   
-  if(index === 0) {
+  if(index === 1) {
       cl(allEpisodesIndexArray)
       cl(this.value);
       resetEpisodesHTML()
@@ -120,11 +126,11 @@ document.getElementsByTagName('select')[2].onchange = function() {
             displayEpisodes(allEpisodes,0,allEpisodes.length + 1)
         }
 
-  } else {
+  } else if (index > 1){
     console.log(index -1);
     resetEpisodesHTML()
     //   fetchEpisodesBySeries(index);
-    displayEpisodes(allEpisodes,index -1,index);
+    displayEpisodes(allEpisodes,index -2,index-1);
   }
   
 
@@ -151,6 +157,9 @@ function subSearchToggleFunction(subSearchIdName){
 
     if (subSearchClicked.id === "subSearchOne") {
         cl("Series Search")
+    //         if (searchByEpisodesToggle === false) {
+    //     subSearchTwo.classList.add("noSelect");
+    // }   
 
         if (searchBySeriesToggle === true){
             searchBySeriesToggle = false;
@@ -192,6 +201,12 @@ function subSearchInputBoxToggle (){
     cl("subSearchInputBoxToggle Function RUN !!!!")
     cl(searchBySeriesToggle)
     cl(searchByEpisodesToggle)
+    const subSearchOne = document.getElementById("subSearchOne");
+    const subSearchTwo = document.getElementById("subSearchTwo");
+
+
+            
+
 
     if ((searchBySeriesToggle === true)||(searchByEpisodesToggle === true)) {
         cl("input box change one is true..")
@@ -199,6 +214,13 @@ function subSearchInputBoxToggle (){
         inputBox.classList.remove("Hidden")
         inputBox.classList.remove("readOnlyClass")
         inputBox.classList.add("Show")
+
+        if (searchBySeriesToggle === true) {
+            subSearchOne.classList.remove("noSelect");
+        } else if (searchByEpisodesToggle === true) {
+            subSearchTwo.classList.remove("noSelect");
+        }   
+        
     } else {
         inputBox.readOnly = true;
         inputBox.classList.remove("Show")

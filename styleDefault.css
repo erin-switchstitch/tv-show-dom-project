@@ -31,7 +31,8 @@ body {
   width: 100vw;
   background-color: #40095e;
   height: var( --header-offset);
-  justify-content: space-around;
+  /* justify-content: space-around; */
+   user-select: none;
   z-index: 10;
 }
 
@@ -88,11 +89,27 @@ header a:hover {
  */
 
 .box.hidden {
-  color: black;
+  color: rgb(107, 107, 107);
 } 
+
+.box.hidden:hover {
+  cursor:not-allowed;
+  transition-duration: 500ms;
+  color: #6f0909;
+} 
+
 
 .box.showing{
   color: white;
+  cursor: pointer;
+   user-select: none;
+}
+
+.box.showing:hover{
+  transition-duration: 500ms;
+  color: #9615DB;
+  border-bottom: white 3px solid;
+
 }
 
 .box.moved {
@@ -108,13 +125,14 @@ header a:hover {
 
 #searchHeaderText {
   display: flex;
+  font-family: "Share";
 }
 
 
 #forthBox:hover + #searchHeaderOverlay {
   display: flex;
+ 
 }
-
 
 
 
@@ -176,12 +194,22 @@ header a:hover {
   background-color: #131213;
   border-top: #9615DB 3px solid;
   border-bottom: 0px;
+  cursor: pointer;
 }
 
 .inputBox.Show.Clicked {
   color: rgb(255, 255, 255);
   background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
 }
+
+
+.inputBox.noSelect:hover {
+  cursor:not-allowed;
+  transition-duration: 500ms;
+  color: #6f0909;
+}
+
+
 
 .inputBox.Show#subSearchZero {
   color: rgb(255, 255, 255);
@@ -192,6 +220,7 @@ background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
   font-family: "Share";
   font-weight: 500;
   font-size: large;
+  letter-spacing: 1px;
 }
 
 #inputBoxID.Show {
@@ -221,14 +250,14 @@ background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
   border-top: #9615DB 3px solid;
 }
 
-/* 
-#subSearchZero, #subSearchOne, #subSearchTwo {
+#inputBoxID.readOnlyClass:focus{
+  outline:2px solid #6f0909;
+}
 
-  height: 100px;
-  width: 15vw;
-  background-color: white;
-  border: #9615DB;  
-} */
+#inputBoxID.Show:focus{
+  outline:#9615DB 2px solid;;
+}
+
 
 
 .selectBox.Hidden{
@@ -373,10 +402,6 @@ background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
 .flexEpisodeContainer {
   flex: 1 0 21%; /* explanation below */
 
-  /* height: 100px; */
-
-  
-  
   border:5px solid #D2D3D3;
     border-radius: 10px;
     background-color: #2D3032;
@@ -575,5 +600,169 @@ background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
 
 .loadMoreButton {
   display: flex;
+  margin-top: 5vh;
+  height: 5vh;
+  width: 15vw;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  border-top: #9615DB 3px solid;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(rgba(29, 18, 31), rgb(63, 27, 69));
+  font-size: 1.6em;
+  z-index: 10;
+}
 
+.loadMoreButton:hover {
+  cursor: pointer;
+}
+/* --------- Styling code for Footer ---------- */
+
+footer{
+  width: 100vw;
+  color : white;
+  background-color: rgb(41, 41, 41);
+  height: 10vh;
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+
+}
+
+#footerID {
+    align-self:center;
+  align-content: center;
+  align-items: center;
+}
+
+
+/* ------------------- Styling code for CRACKED TEXT ----------------- */
+
+.seriesTextCracked{
+    position: relative;
+    font-family: 'Share', Arial, sans-serif;
+    color:white;
+    background-color: #1b1b1bd8;
+  font-size: 7.5vw;
+  font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-shadow: 1px 2px 0.15em #9615DB;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.009em);
+    /*animation: shake 2.5s linear forwards;*/
+}
+
+/* Forked Blackmirror text animation https://codepen.io/GeorgePark/pen/jeBbGN */
+/*
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    overflow: hidden;
+}*/
+
+#insertHeadingTextHere {
+    font-family: 'Share', Arial, sans-serif;
+}
+
+.seriesTextCracked span {
+    position: absolute;
+      font-family: 'Share', Arial, sans-serif;
+    top: 0;
+    left: 0;
+    /*display: flex;
+    flex-direction:row;*/
+    transform: translate(-50%, -50%);
+    -webkit-clip-path: polygon(10% 0%, 44% 0%, 70% 100%, 55% 100%);
+            clip-path: polygon(10% 0%, 44% 0%, 70% 100%, 55% 100%);
+    animation: crack3 2.5s linear forwards;
+}
+
+.seriesTextCracked::before,
+.seriesTextCracked::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* The before and after seem to be the two sides of the cracked */
+
+.seriesTextCracked::before {
+    animation: crack1 2.5s linear forwards;
+    /* clip-path is the way that the text has been divide up. Can be done in lots of different shapes e.g circle. It works by obscuring part of the element targeted*/
+    -webkit-clip-path: polygon(0% 0%, 10% 0%, 55% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 10% 0%, 55% 100%, 0% 100%);
+}
+
+/* animation is pure CSS. crack2 refers to the @keyframes that is linked below. It is directed at the h1 element. 2.5s refers to delay. Can add duration here. Linear refers to text moving to one side (i.e. not ease-in-out). Forwards refers to direction.,  */
+
+.seriesTextCracked::after {
+    animation: crack2 2.5s linear forwards;
+    -webkit-clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);
+            clip-path: polygon(44% 0%, 100% 0%, 100% 100%, 70% 100%);
+}
+
+@keyframes crack1 {
+    /*These outer % refer to percentage moved through the animation. Can add anything I want...*/
+    0%,5%{
+        transform: translate(-50%, -50%);
+    }
+  
+    /* This changes the left crack movement*/
+    9% {
+        transform: translate(-61%, -50%);
+        
+    }
+    30%{
+      transform: translate(-61%, -50%);
+      opacity: 0;
+    } 
+    100% {
+      transform: translate(-61%, -50%);
+      opacity: 0;
+      
+    }
+}
+
+@keyframes crack2 {
+    0%,5%{
+        transform: translate(-50%, -50%);
+        
+    }
+  
+    /* This changes the left crack movement*/
+    9% {
+        transform: translate(-39%, -50%);
+        /*opacity: 1;*/
+    }
+    30%{
+      transform: translate(-39%, -50%);
+      opacity: 0;
+    } 
+    100% {
+      transform: translate(-39%, -50%);
+      opacity: 0;
+      /*opacity : 0 ;*/
+    }
+}
+
+@keyframes crack3 {
+    0%,5%{
+        opacity: 1;
+    }
+    30%{
+        opacity: 0;
+    } 
+    100%{
+        opacity: 0;
+    }
 }

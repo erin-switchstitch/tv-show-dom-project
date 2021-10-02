@@ -53,7 +53,7 @@
       <div class="inputBoxesContainer">
         <a class="inputBox Hidden" id="subSearchZero">SEARCH :</a>
         <a class="inputBox Hidden" onclick="subSearchToggleFunction(`subSearchOne`)" id="subSearchOne">BY SERIES</a>
-        <a class="inputBox Hidden" onclick="subSearchToggleFunction(`subSearchTwo`)" id="subSearchTwo">BY EPISODES</a>
+        <a class="inputBox Hidden noSelect" onclick="subSearchToggleFunction(`subSearchTwo`)" id="subSearchTwo">BY EPISODES</a>
         <input class="inputBox Hidden" id="inputBoxID" type="search" class="inputBox Hidden" id="inputBoxID"
           onkeyup="searchFunction()" placeholder="Search here ....">
           <!-- readonly -->
@@ -76,7 +76,7 @@
       <div class="seriesImageContainer">
         <!--<div class="seriesImageOverlay"></div> -->
         <img class="seriesImage" id="headerImageID" alt="TV series background image"
-          src="https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif">
+          src="https://i.pinimg.com/originals/9c/29/00/9c2900a182571a32964f758b691aea0e.gif" draggable="false">
 
       </div>
     </div>
@@ -92,7 +92,7 @@
   </div>
   </div>
   <footer>
-    <h2 id="footerID">This is my footer</h2>
+    <h2 id="footerID">CYF Project 10/2021 - By Erin Dyson - Pure Javascript</h2>
   </footer>
 
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->

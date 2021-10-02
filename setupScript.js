@@ -427,7 +427,10 @@ function fetchEpisodesBySeries(seriesID){
 function createAllEpisodesIndexArray(arrayToCovert){
   allEpisodesIndexArray =[];
   allEpisodesSeasonNumArray=[];
-  episodesSelectBox.innerHTML = `<option value="" selected>Show All Episodes</option>`;
+  episodesSelectBox.innerHTML = `
+  <option value="null" selected disabled>Select an option from below ...</option>
+  <option value="">SHOW ALL EPISODES</option>
+  `;
 
   for (let index = 0; index < arrayToCovert.length; index++) {  
     // This creates an array with all the index positions of the full episode list
@@ -450,6 +453,7 @@ function createAllEpisodesIndexArray(arrayToCovert){
               class="episodeNum">${formatEpisodeNum}</span> - ${currentEpisode.name}</h3></option>
     `
   }
+  
 }
 
 function populateEpisodeHeaderSelect(episodeList, seasonNum, lowerLimit, upperLimit) {
@@ -461,9 +465,15 @@ function populateEpisodeHeaderSelect(episodeList, seasonNum, lowerLimit, upperLi
   episodesNum.textContent = `${episodeList.length} / ${episodeList.length}`;
 
   if (seasonNum > 0) {
-    episodesSelectBox.innerHTML = `<option value="${seasonNum}" selected>Show All Episodes For Season ${seasonNum}</option>`;
+    episodesSelectBox.innerHTML = `
+    <option value="null" selected>Select an option from below ...</option>
+    <option value="${seasonNum}">Show All Episodes For Season ${seasonNum}</option>
+    `;
   } else if (seasonNum === 0) {
-    episodesSelectBox.innerHTML = `<option value="0" selected>Show All Episodes${seasonNum}</option>`;
+    episodesSelectBox.innerHTML = `
+    <option value="null" selected>Select an option from below ...</option>
+    <option value="0">Show All Episodes${seasonNum}</option>
+    `;
   }
   for (let index = lowerLimit; index < upperLimit; index++) {  
     // // This creates an array with all the index positions of the full episode list
